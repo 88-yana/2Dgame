@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 19:13:02 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/08/30 18:01:30 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/08/30 18:39:55 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int main()
 	char *image = "./tree.xpm";
 	char *image1 = "./cherry.xpm";
 	char *image2 = "./door.xpm";
+	char *image3 = "./lemon.xpm";
 	void *image_ptr;
 	void *image_ptr1;
 	void *image_ptr2;
+	void *image_ptr3;
 	mlx = mlx_init();//fileopenの時のfd的な？
 	mlx_win = mlx_new_window(mlx, width, height,"so_long");
 	// mlx_win = mlx_new_window(スクリーン識別子, width, height,"test");
@@ -49,12 +51,13 @@ int main()
 			j = 0;
 			while (j < height)
 			{
-				if(j % 3 == 0)
-					mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(60, 240, 100));
-				if(j % 3 == 1)
-					mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(60, 200, 100));
-				if (j % 3 == 2)
-					mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(60, 180, 100));
+				// if(j % 3 == 0)
+				// 	mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(60, 240, 100));
+				// if(j % 3 == 1)
+				// 	mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(60, 200, 100));
+				// if (j % 3 == 2)
+				// 	mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(60, 180, 100));
+				mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(255, 255, 255));
 					j++;
 			}
 			i++;
@@ -62,6 +65,16 @@ int main()
 	image_ptr = mlx_xpm_file_to_image(mlx, image, &w, &h);
 	image_ptr1 = mlx_xpm_file_to_image(mlx, image1, &w, &h);
 	image_ptr2 = mlx_xpm_file_to_image(mlx, image2, &w, &h);
+	image_ptr3 = mlx_xpm_file_to_image(mlx, image3, &w, &h);
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++)
+		{
+			mlx_put_image_to_window(mlx, mlx_win, image_ptr3, 100 * i, 100 * j);
+		}
+		
+	}
+	
 	for (int i = 0; i < 3; i++)
 	{
 		mlx_put_image_to_window(mlx, mlx_win, image_ptr, 100 * i, 0);
