@@ -6,11 +6,21 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 19:13:02 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/08/30 15:45:00 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/08/30 17:20:33 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx.h"
+
+int rgb_to_int(int r, int g, int b)
+{
+	int color = 0;
+	color |= b;
+	color |= g << 8;
+	color |= r << 16;
+	return (color);
+}
+
 int main()
 {
 	void *mlx;//スクリーン接続識別子
@@ -19,8 +29,8 @@ int main()
 	int j;
 	int width = 1000; //ウィンドウのサイズ
 	int height = 1000;
-	int w = 500;
-	int h = 500;
+	int w = 0;
+	int h = 0;
 	char *image = "./stop.xpm";
 	void *image_ptr;
 	mlx = mlx_init();//fileopenの時のfd的な？
@@ -29,16 +39,22 @@ int main()
 	//座標は左上が原点、矢印はx軸が右、y軸が下向きになる
 	//でも与えられる図形の座標は一般的な向きの座標のためあとで座標変換が必要となる
 	   i= 0;
-	// while (i < width)
-	// {
-	// 		j = 0;
-	// 		while (j < height)
-	// 		{
-	// 				mlx_pixel_put(mlx, mlx_win, i, j, 127);
-	// 				j++;
-	// 		}
-	// 		i++;
-	// }
+	int color = rgb_to_int(100, 40, 0);
+	while (i < width)
+	{
+			j = 0;
+			while (j < height)
+			{
+				if(j % 3 == 0)
+					mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(60, 240, 100));
+				if(j % 3 == 1)
+					mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(60, 200, 100));
+				if (j % 3 == 2)
+					mlx_pixel_put(mlx, mlx_win, i, j, rgb_to_int(60, 180, 100));
+					j++;
+			}
+			i++;
+	}
 	image_ptr = mlx_xpm_file_to_image(mlx, image, &w, &h);
 	mlx_put_image_to_window(mlx, mlx_win, image_ptr, 0, 0);
 	mlx_loop(mlx);//無限ループを作り、その間ウィンドウを表示させ続ける
