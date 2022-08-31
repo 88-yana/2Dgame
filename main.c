@@ -224,180 +224,181 @@
 // 	return (0);
 // }
 
-// typedef struct s_map {
-// 	char	**map_wall;
-// 	char	**map_item;
-// 	int		player;
-// 	int		door;
-// 	int		col;
-// 	int		row;
-// }	t_map;
+typedef struct s_map {
+	char	**map_wall;
+	char	**map_item;
+	int		player;
+	int		door;
+	int		col;
+	int		row;
+}	t_map;
 
-// typedef struct s_vars {
-// 	void	*mlx;
-// 	void	*win;
-// }	t_vars;
-
-// typedef struct s_image {
-// 	char	*back;
-// 	char	*wall;
-// 	char	*item;
-// 	char	*player;
-// 	char	*closed_door;
-// 	char	*open_door;
-// 	void	*back_ptr;
-// 	void	*wall_ptr;
-// 	void	*item_ptr;
-// 	void	*player_ptr;
-// 	void	*closed_ptr;
-// 	void	*open_ptr;
-// }	t_image;
-
-// typedef enum e_num {
-// 	back,
-// 	wall,
-// 	item,
-// 	player,
-// 	closed_door,
-// 	open_door,
-// }	t_type;
-
-// void	generate_map(char *mapline, t_map *map)
-// {
-	
-// }
-
-// void	make_map(char *mapline, t_map *map)
-// {
-// 	map->col = countcol(mapline);
-// 	map->row = countrow(mapline);
-// 	// 	壁とアイテムと扉とプレーヤーのマップを分ける？
-// 	generate_map(mapline, map);
-// }
-
-// void	init_window(t_vars *vars)
-// {
-	
-// }
-
-// int	key_hook(int keycode, t_vars *vars)
-// {
-// 	if (keycode == 2)
-// 		printf("Hello from key_hook!\n");
-// 	else
-// 		printf("else!\n");
-
-// 	return (0);
-// }
-
-// void	draw_back(t_map *map, t_vars *vars, void *image_ptr)
-// {
-// 	int i;
-// 	int j;
-// 	i = 0;
-// 	j = 0;
-// 	while (i < map->col)
-// 	{
-// 		while (j < map->row)
-// 		{
-// 			mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-
-// void	draw_wall(t_map *map, t_vars *vars, void *image_ptr)
-// {
-// 	int i;
-// 	int j;
-// 	i = 0;
-// 	j = 0;
-// 	while (i < map->col)
-// 	{
-// 		while (j < map->row)
-// 		{
-// 			if (map->map_wall[i][j] == '1')
-// 				mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-
-// void	display_map(t_map *map, t_vars *vars)
-// {
-// 	t_image image;
-
-// 	//画像のポインタを作る
-// 	make_image(&image);
-// 	//	背景を表示
-// 	draw_back(map, vars, image.back_ptr);
-// 	//	壁を表示
-// 	draw_wall(map, vars, image.wall_ptr);
-	
-// 	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
-// 		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
-// 		// 	キーボード入力を受け取る
-// 		// 	playerが進めるか（壁でないか）チェックして，進め，表示
-// 	mlx_key_hook(vars->win, key_hook, &vars);
-// 	mlx_loop(vars->mlx);
-// }
-
-// int main(int argc, char **argv)
-// {
-// 	char	*mapline;
-// 	t_map	map;
-// 	t_vars	vars;
-
-// 	// 引数名のエラー処理
-// 	ft_caution(argc, argv);
-// 	// マップ読み込み
-// 	mapline = read_file(argv[1]);
-// 	// マップエラー処理
-// 	check_map(mapline);
-// 	// マップの縦横を測る
-// 	// マップを二次元配列に突っ込む
-// 	make_map(mapline, &map);
-
-// 	//windowを開始
-// 	init_window(&vars);
-// 	// マップに合わせて表示
-// 	display_map(&map, &vars);
-
-// 	return (0);
-// }
-
-#include <mlx.h>
-#include <stdio.h>
-
-typedef struct	s_vars {
+typedef struct s_vars {
 	void	*mlx;
 	void	*win;
-}				t_vars;
+}	t_vars;
 
-int	key_hook(int keycode, t_vars *vars, int *a)
+typedef struct s_image {
+	char	*back;
+	char	*wall;
+	char	*item;
+	char	*player;
+	char	*closed_door;
+	char	*open_door;
+	void	*back_ptr;
+	void	*wall_ptr;
+	void	*item_ptr;
+	void	*player_ptr;
+	void	*closed_ptr;
+	void	*open_ptr;
+}	t_image;
+
+typedef enum e_num {
+	back,
+	wall,
+	item,
+	player,
+	closed_door,
+	open_door,
+}	t_type;
+
+void	generate_map(char *mapline, t_map *map)
+{
+	
+}
+
+void	make_map(char *mapline, t_map *map)
+{
+	map->col = countcol(mapline);
+	map->row = countrow(mapline);
+	// 	壁とアイテムと扉とプレーヤーのマップを分ける？
+	generate_map(mapline, map);
+}
+
+void	init_window(t_vars *vars, t_map *map)
+{
+	vars->mlx = mlx_init();
+	vars->win = mlx_new_window(vars->mlx, 100 * map->row, 100 * map->col,"so_long");
+}
+
+int	key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 2)
-		printf("yeah\n");
-	else
 		printf("Hello from key_hook!\n");
-	printf("both\n");
+	else
+		printf("else!\n");
+
 	return (0);
 }
 
-int	main(void)
+void	draw_back(t_map *map, t_vars *vars, void *image_ptr)
 {
-	t_vars	vars;
-	int a = 0;
-	int keycode;
-
-	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, 640, 480, "Hello world!");
-	printf("a = %d\n", a);
-	int (*hook)(int, t_vars *, int);
-	hook = key_hook(0, &vars, &a);
-	a = mlx_key_hook(vars.win, hook, &vars);
-	printf("a = %d\n", a);
-	mlx_loop(vars.mlx);
+	int i;
+	int j;
+	i = 0;
+	j = 0;
+	while (i < map->col)
+	{
+		while (j < map->row)
+		{
+			mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
+			j++;
+		}
+		i++;
+	}
 }
+
+void	draw_wall(t_map *map, t_vars *vars, void *image_ptr)
+{
+	int i;
+	int j;
+	i = 0;
+	j = 0;
+	while (i < map->col)
+	{
+		while (j < map->row)
+		{
+			if (map->map_wall[i][j] == '1')
+				mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	display_map(t_map *map, t_vars *vars)
+{
+	t_image image;
+
+	//画像のポインタを作る
+	make_image(&image);
+	//	背景を表示
+	draw_back(map, vars, image.back_ptr);
+	//	壁を表示
+	draw_wall(map, vars, image.wall_ptr);
+	
+	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
+		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
+		// 	キーボード入力を受け取る
+		// 	playerが進めるか（壁でないか）チェックして，進め，表示
+	mlx_key_hook(vars->win, key_hook, &vars);
+	mlx_loop(vars->mlx);
+}
+
+int main(int argc, char **argv)
+{
+	char	*mapline;
+	t_map	map;
+	t_vars	vars;
+
+	// 引数名のエラー処理
+	check_arg(argc, argv);
+	// マップ読み込み
+	mapline = read_file(argv[1]);
+	// マップエラー処理
+	check_map(mapline);
+	// マップの縦横を測る
+	// マップを二次元配列に突っ込む
+	make_map(mapline, &map);
+
+	//windowを開始
+	init_window(&vars, &map);
+	// マップに合わせて表示
+	display_map(&map, &vars);
+
+	return (0);
+}
+
+// #include <mlx.h>
+// #include <stdio.h>
+
+// typedef struct	s_vars {
+// 	void	*mlx;
+// 	void	*win;
+// }				t_vars;
+
+// int	key_hook(int keycode, t_vars *vars, int *a)
+// {
+// 	if (keycode == 2)
+// 		printf("yeah\n");
+// 	else
+// 		printf("Hello from key_hook!\n");
+// 	printf("both\n");
+// 	return (0);
+// }
+
+// int	main(void)
+// {
+// 	t_vars	vars;
+// 	int a = 0;
+// 	int keycode;
+
+// 	vars.mlx = mlx_init();
+// 	vars.win = mlx_new_window(vars.mlx, 640, 480, "Hello world!");
+// 	printf("a = %d\n", a);
+// 	int (*hook)(int, t_vars *, int);
+// 	hook = key_hook(0, &vars, &a);
+// 	a = mlx_key_hook(vars.win, hook, &vars);
+// 	printf("a = %d\n", a);
+// 	mlx_loop(vars.mlx);
+// }
