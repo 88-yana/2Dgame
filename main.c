@@ -12,14 +12,14 @@
 
 // #include "mlx.h"
 
-// // int rgb_to_int(int r, int g, int b)
-// // {
-// // 	int color = 0;
-// // 	color |= b;
-// // 	color |= g << 8;
-// // 	color |= r << 16;
-// // 	return (color);
-// // }
+int rgb_to_int(int r, int g, int b)
+{
+	int color = 0;
+	color |= b;
+	color |= g << 8;
+	color |= r << 16;
+	return (color);
+}
 
 // // int main(int argc, char **argv)
 // // {
@@ -224,34 +224,28 @@
 // 	return (0);
 // }
 
-typedef struct s_map {
-	char	**map_wall;
-	char	**map_item;
-	int		player;
-	int		door;
-	int		col;
-	int		row;
-}	t_map;
+
+
+#include "mlx.h"
+#include <stdio.h>
+#define TYPE 6
+
+// // typedef struct s_map {
+// // 	int		player;
+// // 	int		door;
+// // }	t_map;
 
 typedef struct s_vars {
 	void	*mlx;
 	void	*win;
+	char	**map;
+	//playerをintで持つかどうか考えている。
+	int		col;
+	int		row;
+	char	*image[TYPE];
+	char	*image_ptr[TYPE];
+	int		kari;
 }	t_vars;
-
-typedef struct s_image {
-	char	*back;
-	char	*wall;
-	char	*item;
-	char	*player;
-	char	*closed_door;
-	char	*open_door;
-	void	*back_ptr;
-	void	*wall_ptr;
-	void	*item_ptr;
-	void	*player_ptr;
-	void	*closed_ptr;
-	void	*open_ptr;
-}	t_image;
 
 typedef enum e_num {
 	back,
@@ -262,110 +256,164 @@ typedef enum e_num {
 	open_door,
 }	t_type;
 
-void	generate_map(char *mapline, t_map *map)
-{
+// void	generate_map(char *mapline, t_vars *vars)
+// {
 	
-}
+// }
 
-void	make_map(char *mapline, t_map *map)
-{
-	map->col = countcol(mapline);
-	map->row = countrow(mapline);
-	// 	壁とアイテムと扉とプレーヤーのマップを分ける？
-	generate_map(mapline, map);
-}
+// void	make_map(char *mapline, t_vars *vars)
+// {
+// 	vars->col = countcol(mapline);
+// 	vars->row = countrow(mapline);
+// 	// 	壁とアイテムと扉とプレーヤーのマップを分ける？
+// 	generate_map(mapline, vars);
+// }
 
-void	init_window(t_vars *vars, t_map *map)
+void	init_window(t_vars *vars)
 {
 	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, 100 * map->row, 100 * map->col,"so_long");
+	vars->win = mlx_new_window(vars->mlx, 100 * vars->row, 100 * vars->col,"so_long");
 }
+
+
+
+// void	draw_back(t_vars *vars, void *image_ptr)
+// {
+// 	int i;
+// 	int j;
+// 	i = 0;
+// 	j = 0;
+// 	while (i < vars->col)
+// 	{
+// 		while (j < vars->row)
+// 		{
+// 			mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
+
+// void	draw_wall(t_vars *vars, void *image_ptr)
+// {
+// 	int i;
+// 	int j;
+// 	i = 0;
+// 	j = 0;
+// 	while (i < vars->col)
+// 	{
+// 		while (j < vars->row)
+// 		{
+// 			if (vars->map[i][j] == '1')
+// 				mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 int	key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 2)
+	{
 		printf("Hello from key_hook!\n");
+		(vars->kari)--; 
+		printf("%d\n", vars->kari);
+	}
 	else
 		printf("else!\n");
 
 	return (0);
 }
 
-void	draw_back(t_map *map, t_vars *vars, void *image_ptr)
+int	loop_hook(t_vars *vars)
 {
-	int i;
-	int j;
-	i = 0;
-	j = 0;
-	while (i < map->col)
+	printf("%d\n", vars->kari);
+	for (int i = 0; i < vars->col * 100; i++)
 	{
-		while (j < map->row)
+		for (int j = 0; j < vars->row * 100; j++)
 		{
-			mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
-			j++;
+			mlx_pixel_put(vars->mlx, vars->win, i, j, rgb_to_int(vars->kari, vars->kari, vars->kari));
 		}
-		i++;
+		
 	}
+	return (0);
+	// printf("%d\n", vars->col);
 }
 
-void	draw_wall(t_map *map, t_vars *vars, void *image_ptr)
-{
-	int i;
-	int j;
-	i = 0;
-	j = 0;
-	while (i < map->col)
-	{
-		while (j < map->row)
-		{
-			if (map->map_wall[i][j] == '1')
-				mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
-			j++;
-		}
-		i++;
-	}
-}
+// void	display_map(t_vars *vars)
+// {
 
-void	display_map(t_map *map, t_vars *vars)
-{
-	t_image image;
-
-	//画像のポインタを作る
-	make_image(&image);
-	//	背景を表示
-	draw_back(map, vars, image.back_ptr);
-	//	壁を表示
-	draw_wall(map, vars, image.wall_ptr);
+// 	//画像のポインタを作る
+// 	make_image(&vars);
+// 	//	背景を表示
+// 	draw_back(vars, vars->image_ptr[back]);
+// 	//	壁を表示
+// 	draw_wall(vars, vars->image_ptr[wall]);
 	
-	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
-		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
-		// 	キーボード入力を受け取る
-		// 	playerが進めるか（壁でないか）チェックして，進め，表示
-	mlx_key_hook(vars->win, key_hook, &vars);
+// 	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
+// 		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
+// 		// 	キーボード入力を受け取る
+// 		// 	playerが進めるか（壁でないか）チェックして，進め，表示
+// 	mlx_key_hook(vars->win, key_hook, &vars);
+// 	mlx_loop_hook (vars->mlx, loop_hook, &vars);
+// 	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param );
+// 	mlx_loop(vars->mlx);
+// }
+
+// int main(int argc, char **argv)
+// {
+// 	char	*mapline;
+// 	t_vars	vars;
+
+// 	// 引数名のエラー処理
+// 	check_arg(argc, argv);
+// 	// マップ読み込み
+// 	mapline = read_file(argv[1]);
+// 	// マップエラー処理
+// 	check_map(mapline);
+// 	// マップの縦横を測る
+// 	// マップを二次元配列に突っ込む
+// 	make_map(mapline, &vars);
+
+// 	//windowを開始
+// 	init_window(&vars);
+// 	// マップに合わせて表示
+// 	display_map(&vars);
+
+// 	handle_event(&vars);
+
+// 	return (0);
+// }
+
+int kari (t_vars *vars)
+{
+	printf("%d\n", vars->kari);
+	mlx_key_hook(vars->win, key_hook, vars);
+	mlx_loop_hook(vars->mlx, loop_hook, vars);
 	mlx_loop(vars->mlx);
+	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param );
+	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(void)
 {
-	char	*mapline;
-	t_map	map;
 	t_vars	vars;
-
-	// 引数名のエラー処理
-	check_arg(argc, argv);
-	// マップ読み込み
-	mapline = read_file(argv[1]);
-	// マップエラー処理
-	check_map(mapline);
-	// マップの縦横を測る
-	// マップを二次元配列に突っ込む
-	make_map(mapline, &map);
-
-	//windowを開始
-	init_window(&vars, &map);
-	// マップに合わせて表示
-	display_map(&map, &vars);
-
+	vars.col = 3;
+	vars.row = 3;
+	vars.kari = 200;
+	init_window(&vars);
+	for (int i = 0; i < vars.col * 100; i++)
+	{
+		for (int j = 0; j < vars.row * 100; j++)
+		{
+			mlx_pixel_put(vars.mlx, vars.win, i, j, rgb_to_int(vars.kari, vars.kari, vars.kari));
+		}
+		
+	}
+	printf("LINE == %d, FILE == %s :", __LINE__, __FILE__);
+	printf("%d\n", vars.kari);
+	kari(&vars);
 	return (0);
 }
 
