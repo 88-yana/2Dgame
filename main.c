@@ -224,18 +224,38 @@ int rgb_to_int(int r, int g, int b)
 // 	return (0);
 // }
 
+#include "libft/libft.h"
+#include <string.h> //strerror
 
+// #include "mlx.h"
 
-#include "mlx.h"
 #include <stdio.h>
 #define TYPE 6
-#define Y 0
-#define X 1
+#define X 0
+#define Y 1
+#define KEY_W 13
+#define KEY_A 0
+#define KEY_S 1
+#define KEY_D 2
+#define KEY_ESC 53
 
 // // typedef struct s_map {
 // // 	int		player;
 // // 	int		door;
 // // }	t_map;
+
+
+
+
+typedef enum e_num {
+	road,
+	back,
+	wall,
+	item,
+	player,
+	closed_door,
+	open_door,
+}	t_type;
 
 typedef struct s_vars {
 	void	*mlx;
@@ -245,19 +265,46 @@ typedef struct s_vars {
 	int		player[2];
 	int		col;
 	int		row;
+	int		player[2];
+	int		door[2];
+	int		now_sum_item;
+	int		sum_item;
+	int		steps;
 	char	*image[TYPE];
 	char	*image_ptr[TYPE];
 }	t_vars;
 
-typedef enum e_num {
-	back,
-	wall,
-	item,
-	player,
-	rood,
-	closed_door,
-	open_door,
-}	t_type;
+
+
+
+void	check_arg(int argc, char **argv)
+{
+	int	i;
+
+	i = 0;
+	if (argc != 2)
+	{
+		write(2, "Error\nneed file name\n", 22);
+		exit(1);
+	}
+	if (ft_strncmp(argv[1], ".bar", ft_strlen(".bar")) == 0)
+	{
+		write(2, "Error\nFile name is invalid\n", 28);
+		exit(1);
+	}
+	if (ft_strchr(argv[1], '.') != ft_strrchr(argv[1], '.'))
+	{
+		write(2, "Error\nFile name is invalid\n", 28);
+		exit(1);
+	}
+	while(*(argv[1]) != '.')
+		argv[1]++;
+	if (ft_memcmp(argv[1], ".bar", ft_strlen(argv[1])) != 0)
+	{
+		write(2, "Error\nEnd of file name needs to be '.bar'\n", 43);
+		exit(1);
+	}
+}
 
 // void	generate_map(char *mapline, t_vars *vars)
 // {
@@ -297,16 +344,78 @@ void	draw_image(t_vars *vars, t_type type)
 	}
 }
 
+// void	init_window(t_vars *vars)
+// {
+// 	vars->mlx = mlx_init();
+// 	vars->win = mlx_new_window(vars->mlx, 100 * vars->row, 100 * vars->col,"so_long");
+// }
+
+// void	draw_map(t_vars *vars, t_type type)
+// {
+// 	int i;
+// 	int j;
+// 	i = 0;
+// 	j = 0;
+// 	while (i < vars->col)
+// 	{
+// 		while (j < vars->row)
+// 		{
+// 			if (type == back || vars->map[i][j] == type)
+// 				mlx_put_image_to_window(vars->mlx, vars->win, 
+// 					vars->image_ptr[type], 100 * i, 100 * j);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
+
+// void	chage_map(t_vars *vars, int x, int y)
+// {
+// 	if (vars->map[y][x] == item)
+// 	{
+// 		vars->now_sum_item++;
+// 		if (vars->now_sum_item == vars->sum_item)
+// 			vars->map[vars->door[Y]][vars->door[X]] = open_door;
+// 	}
+// 	else if (vars->map[y][x] == open_door)
+// 	{
+// 		mlx_destroy_window(vars->mlx, vars->win);
+// 		ft_printf("success, steps : %d", vars->steps);
+// 	}
+// 	vars->map[y][x] = player;
+// 	return ;
+// }
+
+// void	move_player(t_vars *vars, int x, int y)
+// {
+// 	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door)
+// 	{
+// 		vars->map[vars->player[Y]][vars->player[X]] = road;
+// 		vars->player[X] = x;
+// 		vars->player[Y] = y;
+// 		vars->steps++;
+// 		chage_map(vars, x, y);
+// 	}
+// 	return ;
+// }
+
 int	key_hook(int keycode, t_vars *vars)
 {
-	if (keycode == 2)
-	{
-		printf("Hello from key_hook!\n");
-		//map書き換え
-	}
-	else
-		printf("else!\n");
+	int x;
+	int y;
 
+	x = vars->player[X];
+	y = vars->player[Y];
+	if (keycode == KEY_W)
+		move_player(vars, x, y - 1);
+	if (keycode == KEY_A)
+		move_player(vars, x - 1, y);
+	if (keycode == KEY_S)
+		move_player(vars, x, y + 1);
+	if (keycode == KEY_D)
+		move_player(vars, x + 1, y);
+	if (keycode == KEY_ESC)
+		mlx_destroy_window(vars->mlx, vars->win);
 	return (0);
 }
 
@@ -365,6 +474,62 @@ int main(int argc, char **argv)
 
 	return (0);
 }
+
+int main(int argc, char **argv)
+{
+	char	*mapline;
+	t_vars	vars;
+
+	// 引数名のエラー処理
+	check_arg(argc, argv);
+	// マップ読み込み
+	// mapline = read_file(argv[1]);
+	// // マップエラー処理
+	// check_map(mapline);
+	// // マップの縦横を測る
+	// // マップを二次元配列に突っ込む
+	// make_map(mapline, &vars);
+
+	// //windowを開始
+	// init_window(&vars);
+	// // マップに合わせて表示
+	// display_map(&vars);
+
+	// handle_event(&vars);
+
+	return (0);
+}
+
+// int kari (t_vars *vars)
+// {
+// 	printf("%d\n", vars->kari);
+// 	mlx_key_hook(vars->win, key_hook, vars);
+// 	mlx_loop_hook(vars->mlx, loop_hook, vars);
+// 	mlx_loop(vars->mlx);
+// 	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param );
+// 	return (0);
+// }
+
+// int	main(void)
+// {
+// 	t_vars	vars;
+// 	vars.col = 3;
+// 	vars.row = 3;
+// 	vars.kari = 200;
+// 	init_window(&vars);
+// 	for (int i = 0; i < vars.col * 100; i++)
+// 	{
+// 		for (int j = 0; j < vars.row * 100; j++)
+// 		{
+// 			mlx_pixel_put(vars.mlx, vars.win, i, j, rgb_to_int(vars.kari, vars.kari, vars.kari));
+// 		}
+		
+// 	}
+// 	printf("LINE == %d, FILE == %s :", __LINE__, __FILE__);
+// 	printf("%d\n", vars.kari);
+// 	kari(&vars);
+// 	return (0);
+// }
 
 
 // #include <mlx.h>
