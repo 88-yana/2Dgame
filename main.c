@@ -229,6 +229,8 @@ int rgb_to_int(int r, int g, int b)
 #include "mlx.h"
 #include <stdio.h>
 #define TYPE 6
+#define Y 0
+#define X 1
 
 // // typedef struct s_map {
 // // 	int		player;
@@ -238,13 +240,13 @@ int rgb_to_int(int r, int g, int b)
 typedef struct s_vars {
 	void	*mlx;
 	void	*win;
-	char	**map;
+	t_type	**map;
 	//playerをintで持つかどうか考えている。
+	int		player[2];
 	int		col;
 	int		row;
 	char	*image[TYPE];
 	char	*image_ptr[TYPE];
-	int		kari;
 }	t_vars;
 
 typedef enum e_num {
@@ -252,6 +254,7 @@ typedef enum e_num {
 	wall,
 	item,
 	player,
+	rood,
 	closed_door,
 	open_door,
 }	t_type;
@@ -272,53 +275,34 @@ typedef enum e_num {
 void	init_window(t_vars *vars)
 {
 	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, 100 * vars->row, 100 * vars->col,"so_long");
+	vars->win = mlx_new_window(vars->mlx, 100 * vars->row, 100 * vars->col, "so_long");
 }
 
-
-
-// void	draw_back(t_vars *vars, void *image_ptr)
-// {
-// 	int i;
-// 	int j;
-// 	i = 0;
-// 	j = 0;
-// 	while (i < vars->col)
-// 	{
-// 		while (j < vars->row)
-// 		{
-// 			mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
-
-// void	draw_wall(t_vars *vars, void *image_ptr)
-// {
-// 	int i;
-// 	int j;
-// 	i = 0;
-// 	j = 0;
-// 	while (i < vars->col)
-// 	{
-// 		while (j < vars->row)
-// 		{
-// 			if (vars->map[i][j] == '1')
-// 				mlx_put_image_to_window(vars->mlx, vars->win, image_ptr, 100 * i, 100 * j);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
+void	draw_image(t_vars *vars, t_type type)
+{
+	int i;
+	int j;
+	i = 0;
+	j = 0;
+	while (i < vars->col)
+	{
+		while (j < vars->row)
+		{
+			if (type == back || vars->map[i][j] == type)
+				mlx_put_image_to_window(vars->mlx, vars->win,
+					vars->image_ptr[type], 100 * i, 100 * j);
+			j++;
+		}
+		i++;
+	}
+}
 
 int	key_hook(int keycode, t_vars *vars)
 {
 	if (keycode == 2)
 	{
 		printf("Hello from key_hook!\n");
-		(vars->kari)--; 
-		printf("%d\n", vars->kari);
+		//map書き換え
 	}
 	else
 		printf("else!\n");
@@ -328,94 +312,60 @@ int	key_hook(int keycode, t_vars *vars)
 
 int	loop_hook(t_vars *vars)
 {
-	printf("%d\n", vars->kari);
-	for (int i = 0; i < vars->col * 100; i++)
-	{
-		for (int j = 0; j < vars->row * 100; j++)
-		{
-			mlx_pixel_put(vars->mlx, vars->win, i, j, rgb_to_int(vars->kari, vars->kari, vars->kari));
-		}
-		
-	}
+
+	//map表示
+	draw_image(vars, item);
+	draw_image(vars, player);
+	draw_image(vars, closed_door);
+	draw_image(vars, open_door);
 	return (0);
-	// printf("%d\n", vars->col);
 }
 
-// void	display_map(t_vars *vars)
-// {
+void	display_map(t_vars *vars)
+{
 
-// 	//画像のポインタを作る
-// 	make_image(&vars);
-// 	//	背景を表示
-// 	draw_back(vars, vars->image_ptr[back]);
-// 	//	壁を表示
-// 	draw_wall(vars, vars->image_ptr[wall]);
+	//画像のポインタを作る
+	make_image(&vars);
+	//	背景を表示
+	draw_image(vars, back);
+	//	壁を表示
+	draw_image(vars, wall);
 	
-// 	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
-// 		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
-// 		// 	キーボード入力を受け取る
-// 		// 	playerが進めるか（壁でないか）チェックして，進め，表示
-// 	mlx_key_hook(vars->win, key_hook, &vars);
-// 	mlx_loop_hook (vars->mlx, loop_hook, &vars);
-// 	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param );
-// 	mlx_loop(vars->mlx);
-// }
-
-// int main(int argc, char **argv)
-// {
-// 	char	*mapline;
-// 	t_vars	vars;
-
-// 	// 引数名のエラー処理
-// 	check_arg(argc, argv);
-// 	// マップ読み込み
-// 	mapline = read_file(argv[1]);
-// 	// マップエラー処理
-// 	check_map(mapline);
-// 	// マップの縦横を測る
-// 	// マップを二次元配列に突っ込む
-// 	make_map(mapline, &vars);
-
-// 	//windowを開始
-// 	init_window(&vars);
-// 	// マップに合わせて表示
-// 	display_map(&vars);
-
-// 	handle_event(&vars);
-
-// 	return (0);
-// }
-
-int kari (t_vars *vars)
-{
-	printf("%d\n", vars->kari);
+	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
+		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
+		// 	キーボード入力を受け取る
+		// 	playerが進めるか（壁でないか）チェックして，進め，表示
 	mlx_key_hook(vars->win, key_hook, vars);
-	mlx_loop_hook(vars->mlx, loop_hook, vars);
+	mlx_loop_hook (vars->mlx, loop_hook, vars);
+	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param);
 	mlx_loop(vars->mlx);
-	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param );
+}
+
+int main(int argc, char **argv)
+{
+	char	*mapline;
+	t_vars	vars;
+
+	// 引数名のエラー処理
+	check_arg(argc, argv);
+	// マップ読み込み
+	mapline = read_file(argv[1]);
+	// マップエラー処理
+	check_map(mapline);
+	// マップの縦横を測る
+	// マップを二次元配列に突っ込む
+	make_map(mapline, &vars);
+
+	//windowを開始
+	init_window(&vars);
+	// マップに合わせて表示
+	display_map(&vars);
+
+	// handle_event(&vars);
+
 	return (0);
 }
 
-int	main(void)
-{
-	t_vars	vars;
-	vars.col = 3;
-	vars.row = 3;
-	vars.kari = 200;
-	init_window(&vars);
-	for (int i = 0; i < vars.col * 100; i++)
-	{
-		for (int j = 0; j < vars.row * 100; j++)
-		{
-			mlx_pixel_put(vars.mlx, vars.win, i, j, rgb_to_int(vars.kari, vars.kari, vars.kari));
-		}
-		
-	}
-	printf("LINE == %d, FILE == %s :", __LINE__, __FILE__);
-	printf("%d\n", vars.kari);
-	kari(&vars);
-	return (0);
-}
 
 // #include <mlx.h>
 // #include <stdio.h>
