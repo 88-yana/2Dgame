@@ -254,6 +254,12 @@ typedef enum e_num {
 	player,
 	closed_door,
 	open_door,
+	hito0,
+	hito1,
+	hito2,
+	hito3,
+	hito4,
+	hito5,
 }	t_type;
 
 typedef struct s_vars {
@@ -268,8 +274,8 @@ typedef struct s_vars {
 	int		now_sum_item;
 	int		sum_item;
 	int		steps;
-	char	*image[TYPE];
-	char	*image_ptr[TYPE];
+	char	*image[TYPE + 7];
+	char	*image_ptr[TYPE + 7];
 	int		framerate;
 }	t_vars;
 
@@ -422,9 +428,15 @@ void make_image(t_vars *vars)
 	make_image_ptr(vars, back, "image_xpm/lemon.xpm");
 	make_image_ptr(vars, wall, "image_xpm/tree.xpm");
 	make_image_ptr(vars, item, "image_xpm/cherry.xpm");
-	make_image_ptr(vars, player, "image_xpm/door.xpm");
+	// make_image_ptr(vars, player, "image_xpm/door.xpm");
 	make_image_ptr(vars, closed_door, "image_xpm/door.xpm");
 	make_image_ptr(vars, open_door, "image_xpm/door.xpm");
+	make_image_ptr(vars, hito0, "image_xpm/hito00.xpm");
+	make_image_ptr(vars, hito1, "image_xpm/hito01.xpm");
+	make_image_ptr(vars, hito2, "image_xpm/hito02.xpm");
+	make_image_ptr(vars, hito3, "image_xpm/hito03.xpm");
+	make_image_ptr(vars, hito4, "image_xpm/hito04.xpm");
+	make_image_ptr(vars, hito5, "image_xpm/hito05.xpm");
 }
 
 int	key_hook(int keycode, t_vars *vars)
@@ -454,20 +466,29 @@ int	loop_hook(t_vars *vars)
 	draw_image(vars, back);
 	draw_image(vars, wall);
 	draw_image(vars, item);
-	draw_image(vars, player);
+	draw_image(vars, hito0);
+	draw_image(vars, hito1);
+	draw_image(vars, hito2);
+	draw_image(vars, hito3);
+	draw_image(vars, hito4);
+	draw_image(vars, hito5);
 	draw_image(vars, closed_door);
-	if (vars->framerate  > 100 && vars->framerate  < 200)
-		vars->map[3][2] = closed_door;
-	if (vars->framerate > 200 && vars->framerate  < 300)
-	{
-		vars->map[3][2] = road;
-		vars->map[3][2] = back;
-		vars->map[3][2] = item;
-	}
-	if (vars->framerate > 300)
+	if (vars->framerate / 9 == 0)
+		vars->map[vars->player[Y]][vars->player[X]] = hito0;
+	if (vars->framerate / 9 == 1)
+		vars->map[vars->player[Y]][vars->player[X]] = hito1;
+	if (vars->framerate / 9 == 2)
+		vars->map[vars->player[Y]][vars->player[X]] = hito2;
+	if (vars->framerate / 9 == 3)
+		vars->map[vars->player[Y]][vars->player[X]] = hito3;
+	if (vars->framerate / 9 == 4)
+		vars->map[vars->player[Y]][vars->player[X]] = hito4;
+	if (vars->framerate / 9 == 5)
+		vars->map[vars->player[Y]][vars->player[X]] = hito5;
+	if (vars->framerate ==  54)
 		vars->framerate = 0;
 	vars->framerate++;
-	printf("%d\n", vars->framerate);
+	// printf("%d\n", vars->framerate);
 	draw_image(vars, open_door);
 	return (0);
 }
@@ -689,7 +710,7 @@ void	make_map(t_vars *vars, char **map_c)
 				vars->map[i][j] = wall;
 			if (map_c[i][j] == 'P')
 			{
-				vars->map[i][j] = player;
+				vars->map[i][j] = hito0;
 				vars->player[X] = j;
 				vars->player[Y] = i;
 			}
