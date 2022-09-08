@@ -226,12 +226,12 @@ int rgb_to_int(int r, int g, int b)
 
 #include "libft/libft.h"
 #include "gnl/get_next_line.h"
-#include <string.h> //strerror
+#include <fcntl.h> //O_RDONLY
 
 #include "mlx.h"
 
 #include <stdio.h>
-#define TYPE 6
+#define TYPE 7
 #define X 0
 #define Y 1
 #define KEY_W 13
@@ -289,13 +289,12 @@ void	check_arg(int argc, char **argv)
 {
 	int	i;
 
-	i = 0;
 	if (argc != 2)
 	{
 		write(2, "Error\nneed file name\n", 22);
 		exit(1);
 	}
-	if (ft_strcmp(argv[1], ".bar") == 0)
+	if (ft_strcmp(argv[1], ".ber") == 0)
 	{
 		write(2, "Error\nFile name is invalid\n", 28);
 		exit(1);
@@ -305,9 +304,10 @@ void	check_arg(int argc, char **argv)
 		write(2, "Error\nFile name is invalid\n", 28);
 		exit(1);
 	}
-	while(*(argv[1]) != '.')
-		argv[1]++;
-	if (ft_strcmp(argv[1], ".bar") != 0)
+	i = 0;
+	while(*(argv[1] + i) != '.')
+		i++;
+	if (ft_strcmp(argv[1] + i, ".ber") != 0)
 	{
 		write(2, "Error\nEnd of file name needs to be '.bar'\n", 43);
 		exit(1);
@@ -458,19 +458,68 @@ void	check_arg(int argc, char **argv)
 // 	mlx_loop(vars->mlx);
 // }
 
+
+
+
+
+char	**read_file(t_vars *vars, char* file_name)
+{
+	int fd;
+	int i;
+	int sum_nl;
+	char **map_c;
+
+	sum_nl = 0;
+	fd = open(file_name, O_RDONLY);
+	if (fd == -1)
+	{
+		perror(file_name);
+		exit(1);
+	}
+	while (get_next_line(fd))
+		sum_nl++;
+	sum_nl++;
+	vars->col = sum_nl;
+	close(fd);
+	map_c = malloc(sizeof(char *) * sum_nl);
+	fd = open(file_name, O_RDONLY);
+	if (fd == -1)
+	{
+		perror(file_name);
+		exit(1);
+	}
+	i = 0;
+	while (i < sum_nl)
+	{
+		map_c[i] = get_next_line(fd);
+		i++;
+	}
+	return (map_c);
+}
+
+void	check_map(char **map_c)
+{
+	int cnt_row;
+	int cnt_col;
+	int i;
+	
+}
+
 int main(int argc, char **argv)
 {
-	// char	*mapline;
+	char	**map_c;
 	t_vars	vars;
 
 	// 引数名のエラー処理
 	check_arg(argc, argv);
-
-	
 	// マップ読み込み
-	// mapline = read_file(argv[1]);
-	// // マップエラー処理
-	// check_map(mapline);
+	map_c = read_file(&vars, argv[1]);
+	for (int i = 0; i < vars.col; i++)
+	{
+		printf("%s\n", map_c[i]);
+	}
+	// マップエラー処理
+	check_map(map_c);
 	// // マップの縦横を測る
 	// // マップを二次元配列に突っ込む
 	// make_map(mapline, &vars);
