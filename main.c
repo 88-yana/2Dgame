@@ -132,7 +132,7 @@ int rgb_to_int(int r, int g, int b)
 #include "mlx.h"
 
 #include <stdio.h>
-#define TYPE 7
+#define TYPE 14
 #define X 0
 #define Y 1
 #define KEY_W 13
@@ -151,15 +151,16 @@ typedef enum e_num {
 	back,
 	wall,
 	item,
-	player,
 	closed_door,
 	open_door,
+	player,
 	hito0,
 	hito1,
 	hito2,
 	hito3,
 	hito4,
 	hito5,
+	enemy,
 }	t_type;
 
 typedef struct s_vars {
@@ -168,14 +169,16 @@ typedef struct s_vars {
 	t_type	**map;
 	//playerをintで持つかどうか考えている。
 	int		player[2];
+	int		enemy[2];
+	int		enemy_existing;
 	int		col;
 	int		row;
-	int		door[2]; //door は　ひとつとは限らないので，マップ全体で，closedからopen
+	//door は　ひとつとは限らないので，マップ全体で，closedからopen
 	int		now_sum_item;
 	int		sum_item;
 	int		steps;
-	char	*image[TYPE + 7];
-	char	*image_ptr[TYPE + 7];
+	char	*image[TYPE];
+	char	*image_ptr[TYPE];
 	int		framerate;
 }	t_vars;
 
@@ -221,19 +224,6 @@ void	check_arg(int argc, char **argv)
 		exit(1);
 	}
 }
-
-// void	generate_map(char *mapline, t_vars *vars)
-// {
-	
-// }
-
-// void	make_map(char *mapline, t_vars *vars)
-// {
-// 	vars->col = countcol(mapline);
-// 	vars->row = countrow(mapline);
-// 	// 	壁とアイテムと扉とプレーヤーのマップを分ける？
-// 	generate_map(mapline, vars);
-// }
 
 void	init_window(t_vars *vars)
 {
@@ -340,6 +330,8 @@ void	make_image_ptr(t_vars *vars, t_type type, char *file_name)
 	vars->image_ptr[type] = mlx_xpm_file_to_image(vars->mlx, vars->image[type], &w, &h);
 }
 
+
+
 void make_image(t_vars *vars)
 {
 	make_image_ptr(vars, back, "image_xpm/lemon.xpm");
@@ -354,6 +346,45 @@ void make_image(t_vars *vars)
 	make_image_ptr(vars, hito3, "image_xpm/hito03.xpm");
 	make_image_ptr(vars, hito4, "image_xpm/hito04.xpm");
 	make_image_ptr(vars, hito5, "image_xpm/hito05.xpm");
+	make_image_ptr(vars, enemy, "image_xpm/cherry.xpm");
+}
+
+void	decide_enemy_move(t_vars *vars, int dr);
+
+void	move_enemy(t_vars *vars, int x, int y, int dr)
+{
+	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door && vars->map[y][x] != item)
+	{
+		vars->map[vars->enemy[Y]][vars->enemy[X]] = road;
+		vars->enemy[X] = x;
+		vars->enemy[Y] = y;
+		if (vars->enemy[X] == vars->player[X] && vars->enemy[Y] == vars->player[Y])
+		{
+			free_map(vars);
+			exit (0);
+		}
+		return ;
+	}
+	decide_enemy_move(vars, (dr + 1) % 4);
+}
+
+void	decide_enemy_move(t_vars *vars, int dr)
+{
+	int x;
+	int y;
+
+	x = vars->enemy[X];
+	y = vars->enemy[Y];
+
+	if (dr == 0)
+		move_enemy(vars, x, y - 1, dr);
+	if (dr == 1)
+		move_enemy(vars, x - 1, y, dr);
+	if (dr == 2)
+		move_enemy(vars, x, y + 1, dr);
+	if (dr == 3)
+		move_enemy(vars, x + 1, y, dr);
+	return ;
 }
 
 int	key_hook(int keycode, t_vars *vars)
@@ -364,13 +395,25 @@ int	key_hook(int keycode, t_vars *vars)
 	x = vars->player[X];
 	y = vars->player[Y];
 	if (keycode == KEY_W)
+	{
 		move_player(vars, x, y - 1);
+		decide_enemy_move(vars, vars->framerate % 4);
+	}
 	if (keycode == KEY_A)
+	{
 		move_player(vars, x - 1, y);
+		decide_enemy_move(vars, vars->framerate % 4);
+	}
 	if (keycode == KEY_S)
+	{
 		move_player(vars, x, y + 1);
+		decide_enemy_move(vars, vars->framerate % 4);
+	}
 	if (keycode == KEY_D)
+	{
 		move_player(vars, x + 1, y);
+		decide_enemy_move(vars, vars->framerate % 4);
+	}
 	if (keycode == KEY_ESC)
 		mlx_destroy_window(vars->mlx, vars->win);
 	return (0);
@@ -391,6 +434,7 @@ int	loop_hook(t_vars *vars)
 	draw_image(vars, hito5);
 	draw_image(vars, open_door);
 	draw_image(vars, closed_door);
+	draw_image(vars, enemy);
 	if (vars->framerate / 9 == 0)
 		vars->map[vars->player[Y]][vars->player[X]] = hito0;
 	if (vars->framerate / 9 == 1)
@@ -625,7 +669,14 @@ void	make_map(t_vars *vars, char **map_c)
 		while (j < vars->row)
 		{
 			if (map_c[i][j] == '0')
+			{
 				vars->map[i][j] = road;
+				if (vars->enemy_existing == 0)
+				{
+					vars->map[i][j] = enemy;
+					vars->enemy_existing = 1;
+				}
+			}
 			if (map_c[i][j] == '1')
 				vars->map[i][j] = wall;
 			if (map_c[i][j] == 'P')
@@ -654,6 +705,7 @@ void	init_vars(t_vars *vars)
 	vars->sum_item = 0;
 	vars->now_sum_item = 0;
 	vars->steps = 0;
+	vars->enemy_existing = 0;
 }
 
 int main(int argc, char **argv)
@@ -688,9 +740,9 @@ int main(int argc, char **argv)
 	init_window(&vars);
 	// windowを開始
 	// マップに合わせて表示
-	for (int i = 0; i < vars.col * 100; i++)
-		for (int j = 0; j < vars.row * 100; j++)
-			mlx_pixel_put(vars.mlx, vars.win, j, i, rgb_to_int(255, 255, 255));
+	// for (int i = 0; i < vars.col * 100; i++)
+	// 	for (int j = 0; j < vars.row * 100; j++)
+	// 		mlx_pixel_put(vars.mlx, vars.win, i, j, rgb_to_int(255, 255, 255));
 	display_map(&vars);
 
 	// handle_event(&vars);
