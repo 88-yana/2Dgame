@@ -1,6 +1,6 @@
 CC = cc
 # CFLAGS = -Wall -Wextra -Werror -I ./include
-SRCS = main.c gnl/get_next_line.c gnl/get_next_line_utils.c
+SRCS = main.c libmlx.dylib gnl/get_next_line.c gnl/get_next_line_utils.c
 OBJS = $(SRCS:%.c=%.o)
 NAME = so_long
 

@@ -31,7 +31,7 @@ int rgb_to_int(int r, int g, int b)
 // // 	int height = 1000;
 // // 	int w = 0;
 // // 	int h = 0;
-// // 	char *image = "./tree.xpm";
+	// char *image = "./tree.xpm";
 // // 	char *image1 = "./cherry.xpm";
 // // 	char *image2 = "./door.xpm";
 // // 	char *image3 = "./lemon.xpm";
@@ -62,7 +62,7 @@ int rgb_to_int(int r, int g, int b)
 // // 			}
 // // 			i++;
 // // 	}
-// // 	image_ptr = mlx_xpm_file_to_image(mlx, image, &w, &h);
+	// image_ptr = mlx_xpm_file_to_image(mlx, image, &w, &h);
 // // 	image_ptr1 = mlx_xpm_file_to_image(mlx, image1, &w, &h);
 // // 	image_ptr2 = mlx_xpm_file_to_image(mlx, image2, &w, &h);
 // // 	image_ptr3 = mlx_xpm_file_to_image(mlx, image3, &w, &h);
@@ -225,6 +225,7 @@ int rgb_to_int(int r, int g, int b)
 // }
 
 #include "libft/libft.h"
+#include "libft/ft_printf/ft_printf.h"
 #include "gnl/get_next_line.h"
 #include <fcntl.h> //O_RDONLY
 
@@ -263,12 +264,13 @@ typedef struct s_vars {
 	int		player[2];
 	int		col;
 	int		row;
-	int		door[2];
+	int		door[2]; //door は　ひとつとは限らないので，マップ全体で，closedからopen
 	int		now_sum_item;
 	int		sum_item;
 	int		steps;
 	char	*image[TYPE];
 	char	*image_ptr[TYPE];
+	int		framerate;
 }	t_vars;
 
 int	ft_strcmp(const char *s1, const char *s2)
@@ -327,36 +329,33 @@ void	check_arg(int argc, char **argv)
 // 	generate_map(mapline, vars);
 // }
 
-// void	init_window(t_vars *vars)
-// {
-// 	vars->mlx = mlx_init();
-// 	vars->win = mlx_new_window(vars->mlx, 100 * vars->row, 100 * vars->col, "so_long");
-// }
+void	init_window(t_vars *vars)
+{
+	vars->mlx = mlx_init();
+	vars->win = mlx_new_window(vars->mlx, 100 * vars->row, 100 * vars->col, "so_long");
+}
 
-// void	draw_image(t_vars *vars, t_type type)
-// {
-// 	int i;
-// 	int j;
-// 	i = 0;
-// 	j = 0;
-// 	while (i < vars->col)
-// 	{
-// 		while (j < vars->row)
-// 		{
-// 			if (type == back || vars->map[i][j] == type)
-// 				mlx_put_image_to_window(vars->mlx, vars->win,
-// 					vars->image_ptr[type], 100 * i, 100 * j);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
+void	draw_image(t_vars *vars, t_type type)
+{
+	int i;
+	int j;
 
-// void	init_window(t_vars *vars)
-// {
-// 	vars->mlx = mlx_init();
-// 	vars->win = mlx_new_window(vars->mlx, 100 * vars->row, 100 * vars->col,"so_long");
-// }
+	i = 0;
+	while (i < vars->col)
+	{
+		j = 0;
+		while (j < vars->row)
+		{
+			if (type == back || vars->map[i][j] == type)
+			{
+				mlx_put_image_to_window(vars->mlx, vars->win,
+					vars->image_ptr[type], 100 * j, 100 * i);
+			}
+			j++;
+		}
+		i++;
+	}
+}
 
 // void	draw_map(t_vars *vars, t_type type)
 // {
@@ -377,86 +376,121 @@ void	check_arg(int argc, char **argv)
 // 	}
 // }
 
-// void	chage_map(t_vars *vars, int x, int y)
-// {
-// 	if (vars->map[y][x] == item)
-// 	{
-// 		vars->now_sum_item++;
-// 		if (vars->now_sum_item == vars->sum_item)
-// 			vars->map[vars->door[Y]][vars->door[X]] = open_door;
-// 	}
-// 	else if (vars->map[y][x] == open_door)
-// 	{
-// 		mlx_destroy_window(vars->mlx, vars->win);
-// 		ft_printf("success, steps : %d", vars->steps);
-// 	}
-// 	vars->map[y][x] = player;
-// 	return ;
-// }
+void	chage_map(t_vars *vars, int x, int y)
+{
+	if (vars->map[y][x] == item)
+	{
+		vars->now_sum_item++;
+		if (vars->now_sum_item == vars->sum_item)
+			vars->map[vars->door[Y]][vars->door[X]] = open_door;
+	}
+	else if (vars->map[y][x] == open_door)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		ft_printf("success, steps : %d", vars->steps);
+	}
+	vars->map[y][x] = player;
+	return ;
+}
 
-// void	move_player(t_vars *vars, int x, int y)
-// {
-// 	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door)
-// 	{
-// 		vars->map[vars->player[Y]][vars->player[X]] = road;
-// 		vars->player[X] = x;
-// 		vars->player[Y] = y;
-// 		vars->steps++;
-// 		chage_map(vars, x, y);
-// 	}
-// 	return ;
-// }
+void	move_player(t_vars *vars, int x, int y)
+{
+	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door)
+	{
+		vars->map[vars->player[Y]][vars->player[X]] = road;
+		vars->player[X] = x;
+		vars->player[Y] = y;
+		vars->steps++;
+		chage_map(vars, x, y);
+	}
+	return ;
+}
 
-// int	key_hook(int keycode, t_vars *vars)
-// {
-// 	int x;
-// 	int y;
+void	make_image_ptr(t_vars *vars, t_type type, char *file_name)
+{
+	int w;
+	int h;
 
-// 	x = vars->player[X];
-// 	y = vars->player[Y];
-// 	if (keycode == KEY_W)
-// 		move_player(vars, x, y - 1);
-// 	if (keycode == KEY_A)
-// 		move_player(vars, x - 1, y);
-// 	if (keycode == KEY_S)
-// 		move_player(vars, x, y + 1);
-// 	if (keycode == KEY_D)
-// 		move_player(vars, x + 1, y);
-// 	if (keycode == KEY_ESC)
-// 		mlx_destroy_window(vars->mlx, vars->win);
-// 	return (0);
-// }
+	w = 100;
+	h = 100;
+	vars->image[type] = file_name;
+	vars->image_ptr[type] = mlx_xpm_file_to_image(vars->mlx, vars->image[type], &w, &h);
+}
 
-// int	loop_hook(t_vars *vars)
-// {
+void make_image(t_vars *vars)
+{
+	make_image_ptr(vars, back, "image_xpm/lemon.xpm");
+	make_image_ptr(vars, wall, "image_xpm/tree.xpm");
+	make_image_ptr(vars, item, "image_xpm/cherry.xpm");
+	make_image_ptr(vars, player, "image_xpm/door.xpm");
+	make_image_ptr(vars, closed_door, "image_xpm/door.xpm");
+	make_image_ptr(vars, open_door, "image_xpm/door.xpm");
+}
 
-// 	//map表示
-// 	draw_image(vars, item);
-// 	draw_image(vars, player);
-// 	draw_image(vars, closed_door);
-// 	draw_image(vars, open_door);
-// 	return (0);
-// }
+int	key_hook(int keycode, t_vars *vars)
+{
+	int x;
+	int y;
 
-// void	display_map(t_vars *vars)
-// {
+	x = vars->player[X];
+	y = vars->player[Y];
+	if (keycode == KEY_W)
+		move_player(vars, x, y - 1);
+	if (keycode == KEY_A)
+		move_player(vars, x - 1, y);
+	if (keycode == KEY_S)
+		move_player(vars, x, y + 1);
+	if (keycode == KEY_D)
+		move_player(vars, x + 1, y);
+	if (keycode == KEY_ESC)
+		mlx_destroy_window(vars->mlx, vars->win);
+	return (0);
+}
 
-// 	//画像のポインタを作る
-// 	make_image(&vars);
-// 	//	背景を表示
-// 	draw_image(vars, back);
-// 	//	壁を表示
-// 	draw_image(vars, wall);
+int	loop_hook(t_vars *vars)
+{
+
+	//map表示
+	draw_image(vars, back);
+	draw_image(vars, wall);
+	draw_image(vars, item);
+	draw_image(vars, player);
+	draw_image(vars, closed_door);
+	if (vars->framerate  > 100 && vars->framerate  < 200)
+		vars->map[3][2] = closed_door;
+	if (vars->framerate > 200 && vars->framerate  < 300)
+	{
+		vars->map[3][2] = road;
+		vars->map[3][2] = back;
+		vars->map[3][2] = item;
+	}
+	if (vars->framerate > 300)
+		vars->framerate = 0;
+	vars->framerate++;
+	printf("%d\n", vars->framerate);
+	draw_image(vars, open_door);
+	return (0);
+}
+
+void	display_map(t_vars *vars)
+{
+
+	//画像のポインタを作る
+	make_image(vars);
+	//	背景を表示
+	draw_image(vars, back);
+	//	壁を表示
+	draw_image(vars, wall);
 	
-// 	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
-// 		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
-// 		// 	キーボード入力を受け取る
-// 		// 	playerが進めるか（壁でないか）チェックして，進め，表示
-// 	mlx_key_hook(vars->win, key_hook, vars);
-// 	mlx_loop_hook (vars->mlx, loop_hook, vars);
-// 	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param);
-// 	mlx_loop(vars->mlx);
-// }
+	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
+		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
+		// 	キーボード入力を受け取る
+		// 	playerが進めるか（壁でないか）チェックして，進め，表示
+	mlx_key_hook(vars->win, key_hook, vars);
+	mlx_loop_hook (vars->mlx, loop_hook, vars);
+	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param);
+	mlx_loop(vars->mlx);
+}
 
 
 
@@ -478,10 +512,9 @@ char	**read_file(t_vars *vars, char* file_name)
 	}
 	while (get_next_line(fd))
 		sum_nl++;
-	sum_nl++;
 	vars->col = sum_nl;
 	close(fd);
-	map_c = malloc(sizeof(char *) * sum_nl);
+	map_c = malloc(sizeof(char *) * (sum_nl + 1));
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
@@ -494,15 +527,186 @@ char	**read_file(t_vars *vars, char* file_name)
 		map_c[i] = get_next_line(fd);
 		i++;
 	}
+	close(fd);
 	return (map_c);
 }
 
-void	check_map(char **map_c)
+void free_map_c(t_vars *vars, char **map_c)
 {
-	int cnt_row;
-	int cnt_col;
 	int i;
-	
+
+	i = 0;
+	while (i < vars->col)
+	{
+		free(map_c[i]);
+		i++;
+	}
+	free(map_c);
+}
+
+void is_rectangle(t_vars *vars, char **map_c)
+{
+	int i;
+
+	i = 0;
+	vars->row = ft_strlen(map_c[0]);
+	while (i < vars->col)
+	{
+		if (ft_strlen(map_c[i]) != vars->row)
+		{
+			if (i == vars->col - 1 && ft_strlen(map_c[i]) + 1 == vars->row)
+			{
+				if (map_c[i][vars->row - 2] == '1')
+				{
+					i++;
+					continue ;
+				}
+			}
+			write(2, "Error\nMap is not a rectangle", 29);
+			free_map_c(vars, map_c);
+			exit(1);
+		}
+		i++;
+	}
+	if (map_c[vars->col - 1][vars->row - 1] == '1')
+	{
+		write(2, "Error\nMap is not a rectangle", 29);
+		free_map_c(vars, map_c);
+		exit(1);
+	}
+}
+
+void is_surrounded(t_vars *vars, char **map_c)
+{
+	int i;
+
+	i = 0;
+	while (i < vars->row - 1)
+	{
+		if (map_c[0][i] == map_c[vars->col - 1][i] && map_c[0][i] == '1')
+		{
+			i++;
+			continue ;
+		}
+		write(2, "Error\nMap is not surrounded", 28);
+		exit(1);
+	}
+	i = 0;
+	while (i < vars->col)
+	{
+		if (map_c[i][0] == map_c[i][vars->row - 2] && map_c[i][0] == '1')
+		{
+			i++;
+			continue ;
+		}
+		write(2, "Error\nMap is not surrounded", 28);
+		exit(1);
+	}
+}
+
+void	match_condition(int cnt_p, int cnt_c, int cnt_e)
+{
+	if (cnt_p != 1)
+	{
+		write(2, "Error\nPlayer's start is not one", 32);
+		exit(1);
+	}
+	if (cnt_c == 0)
+	{
+		write(2, "Error\nCollectible is zero", 26);
+		exit(1);
+	}
+	if (cnt_e == 0)
+	{
+		write(2, "Error\nExit is zero", 19);
+		exit(1);
+	}
+}
+
+void	check_components(t_vars *vars, char **map_c)
+{
+	int i;
+	int j;
+	int cnt[3];
+
+	i = 0;
+	cnt[0] = 0;
+	cnt[1] = 0;
+	cnt[2] = 0;
+	while (i < vars->col)
+	{
+		j = 0;
+		while (j < vars->row - 1)
+		{
+			if (map_c[i][j] == 'P')
+				cnt[0]++;
+			if (map_c[i][j] == 'C')
+				cnt[1]++;
+			if (map_c[i][j] == 'E')
+				cnt[2]++;
+			
+			j++;
+		}
+		i++;
+	}
+	match_condition(cnt[0], cnt[1], cnt[2]);
+}
+
+void	check_map(t_vars *vars, char **map_c)
+{
+
+	if (vars->col == 0)
+	{
+		write(2, "Error\nfirst line in file is empty", 34);
+		exit(1);
+	}
+	if (map_c[0][0] != '1')
+	{
+		write(2, "Error\nFirst line is invalid", 28);
+		exit(1);
+	}
+	is_rectangle(vars, map_c);
+	is_surrounded(vars, map_c);
+	check_components(vars, map_c);
+}
+
+void	make_map(t_vars *vars, char **map_c)
+{
+	int	i;
+	int j;
+
+	vars->map = malloc(sizeof(t_type *) * vars->col);
+	i = 0;
+	while (i < vars->col)
+	{
+		vars->map[i] = malloc(sizeof(t_type) * vars->row);
+		j = 0;
+		while (j < vars->row)
+		{
+			if (map_c[i][j] == '0')
+				vars->map[i][j] = road;
+			if (map_c[i][j] == '1')
+				vars->map[i][j] = wall;
+			if (map_c[i][j] == 'P')
+			{
+				vars->map[i][j] = player;
+				vars->player[X] = j;
+				vars->player[Y] = i;
+			}
+			if (map_c[i][j] == 'C')
+				vars->map[i][j] = item;
+			if (map_c[i][j] == 'E')
+				vars->map[i][j] = closed_door;
+			j++;
+		}
+		i++;
+	}
+	free_map_c(vars, map_c);
+}
+
+void	init_vars(t_vars *vars)
+{
+	vars->framerate = 0;
 }
 
 int main(int argc, char **argv)
@@ -515,19 +719,28 @@ int main(int argc, char **argv)
 	// マップ読み込み
 	map_c = read_file(&vars, argv[1]);
 	for (int i = 0; i < vars.col; i++)
-	{
-		printf("%s\n", map_c[i]);
-	}
+		printf("%s", map_c[i]);
+	printf("\n");
 	// マップエラー処理
-	check_map(map_c);
+	check_map(&vars, map_c);
 	// // マップの縦横を測る
-	// // マップを二次元配列に突っ込む
-	// make_map(mapline, &vars);
-
-	// //windowを開始
-	// init_window(&vars);
-	// // マップに合わせて表示
-	// display_map(&vars);
+	vars.row--;
+	// マップを二次元配列に突っ込む
+	make_map(&vars, map_c);
+	
+	init_vars(&vars);
+	for (int i = 0; i < vars.col; i++)
+	{
+		for (int j = 0; j < vars.row; j++)
+		{
+			printf("%d'", vars.map[i][j]);
+		}
+		printf("\n");
+	}
+	// windowを開始
+	init_window(&vars);
+	// マップに合わせて表示
+	display_map(&vars);
 
 	// handle_event(&vars);
 
