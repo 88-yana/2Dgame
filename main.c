@@ -117,112 +117,12 @@ int rgb_to_int(int r, int g, int b)
 // // 	mlx_loop(vars.mlx);
 // // }
 
-// # include	<unistd.h>
-// # include	<stdlib.h>
-// # include	<stdio.h>
-// # include	<fcntl.h>
 
-// int	getdescriptor(char *str)
-// {
-// 	int	num;
 
-// 	num = open(str, O_RDONLY);
-// 	if (num == -1)
-// 	{
-// 		// putcaution();
-// 		return (-1);
-// 	}
-// 	else
-// 		return (num);
-// }
 
-// char	*get_mapline(char *mapline, size_t size)
-// {
-// 	mapline = malloc(sizeof(char) * (size + 1));
-// 	if (mapline == NULL)
-// 	{
-// 		// putcaution();
-// 		return (NULL);
-// 	}
-// 	return (mapline);
-// }
 
-// size_t	countfile(int fd)
-// {
-// 	char	c;
-// 	size_t	size;
 
-// 	size = 0;
-// 	while (read(fd, &c, 1) != 0)
-// 		size++;
-// 	close(fd);
-// 	return (size);
-// }
 
-// char	*readfile(char *str)
-// {
-// 	int		fd;
-// 	size_t	i;
-// 	size_t	size;
-// 	char	*mapline;
-
-// 	mapline = NULL;
-// 	fd = getdescriptor(str);
-// 	if (fd == -1)
-// 		return (NULL);
-// 	size = countfile(fd);
-// 	mapline = get_mapline(mapline, size);
-// 	if (mapline == NULL)
-// 		return (NULL);
-// 	fd = getdescriptor(str);
-// 	i = 0;
-// 	while (read(fd, &mapline[i], 1) != 0)
-// 		i++;
-// 	mapline[size] = '\0';
-// 	close(fd);
-// 	return (mapline);
-// }
-
-// // int	checkmap(char *mapline, char eof[])
-// // {
-// // 	if (mapline == NULL)
-// // 		return (1);
-// // 	if (extracteof(mapline, eof) == NULL)
-// // 		return (1);
-// // 	if (countrow(mapline) == 0 || countcol(mapline) == 0)
-// // 	{
-// // 		putcaution();
-// // 		return (1);
-// // 	}
-// // 	return (0);
-// // }
-
-// int	main(int argc, char *argv[])
-// {
-// 	char	*mapline;
-// 	int		row_col[2]; //typedef する。
-// 	int		i;
-// 	// char	eof[4];
-
-// 	i = 0;
-// 	// if (argc == 1)
-// 	// {
-// 	// 	mapline = readstdin();
-// 	// 	i--;
-// 	// }
-// 		if (argc > 1)
-// 			mapline = readfile(argv[1]);
-// 		// if (checkmap(mapline, eof) == 1)
-// 		// 	continue ;
-// 		// row_col[0] = countrow(mapline);
-// 		// row_col[1] = countcol(mapline);
-// 		// if (map_gen(mapline, row_col, eof, argv[i]))
-// 		// 	continue ;
-// 	while (mapline[i] != '\0')
-// 		printf("%c", mapline[i++]);
-// 	free(mapline);
-// 	return (0);
-// }
 
 #include "libft/libft.h"
 #include "libft/ft_printf/ft_printf.h"
@@ -363,37 +263,53 @@ void	draw_image(t_vars *vars, t_type type)
 	}
 }
 
-// void	draw_map(t_vars *vars, t_type type)
-// {
-// 	int i;
-// 	int j;
-// 	i = 0;
-// 	j = 0;
-// 	while (i < vars->col)
-// 	{
-// 		while (j < vars->row)
-// 		{
-// 			if (type == back || vars->map[i][j] == type)
-// 				mlx_put_image_to_window(vars->mlx, vars->win, 
-// 					vars->image_ptr[type], 100 * i, 100 * j);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }
+void	free_map(t_vars *vars)
+{
+	int i;
+
+	i = 0;
+	while (i < vars->col)
+	{
+		free(vars->map[i]);
+		i++;
+	}
+	free(vars->map);
+}
+
+void	chage_closed_to_open(t_vars *vars)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < vars->col)
+	{
+		j = 0;
+		while (j < vars->row)
+		{
+			if (vars->map[i][j] == closed_door)
+				vars->map[i][j] = open_door;
+			j++;
+		}
+		i++;
+	}
+}
 
 void	chage_map(t_vars *vars, int x, int y)
 {
 	if (vars->map[y][x] == item)
 	{
 		vars->now_sum_item++;
+		ft_printf("%d, %d", vars->now_sum_item, vars->sum_item);
 		if (vars->now_sum_item == vars->sum_item)
-			vars->map[vars->door[Y]][vars->door[X]] = open_door;
+			chage_closed_to_open(vars);
 	}
 	else if (vars->map[y][x] == open_door)
 	{
+		free_map(vars);
+		ft_printf("success, steps : %d\n", vars->steps);
 		mlx_destroy_window(vars->mlx, vars->win);
-		ft_printf("success, steps : %d", vars->steps);
+		exit (0) ;
 	}
 	vars->map[y][x] = player;
 	return ;
@@ -407,6 +323,7 @@ void	move_player(t_vars *vars, int x, int y)
 		vars->player[X] = x;
 		vars->player[Y] = y;
 		vars->steps++;
+		ft_printf("steps : %d\n", vars->steps);
 		chage_map(vars, x, y);
 	}
 	return ;
@@ -429,7 +346,7 @@ void make_image(t_vars *vars)
 	make_image_ptr(vars, wall, "image_xpm/tree.xpm");
 	make_image_ptr(vars, item, "image_xpm/cherry.xpm");
 	// make_image_ptr(vars, player, "image_xpm/door.xpm");
-	make_image_ptr(vars, closed_door, "image_xpm/door.xpm");
+	make_image_ptr(vars, closed_door, "image_xpm/closed_door.xpm");
 	make_image_ptr(vars, open_door, "image_xpm/door.xpm");
 	make_image_ptr(vars, hito0, "image_xpm/hito00.xpm");
 	make_image_ptr(vars, hito1, "image_xpm/hito01.xpm");
@@ -472,6 +389,7 @@ int	loop_hook(t_vars *vars)
 	draw_image(vars, hito3);
 	draw_image(vars, hito4);
 	draw_image(vars, hito5);
+	draw_image(vars, open_door);
 	draw_image(vars, closed_door);
 	if (vars->framerate / 9 == 0)
 		vars->map[vars->player[Y]][vars->player[X]] = hito0;
@@ -564,6 +482,8 @@ void free_map_c(t_vars *vars, char **map_c)
 	}
 	free(map_c);
 }
+
+
 
 void is_rectangle(t_vars *vars, char **map_c)
 {
@@ -715,7 +635,10 @@ void	make_map(t_vars *vars, char **map_c)
 				vars->player[Y] = i;
 			}
 			if (map_c[i][j] == 'C')
+			{
 				vars->map[i][j] = item;
+				vars->sum_item++;
+			}
 			if (map_c[i][j] == 'E')
 				vars->map[i][j] = closed_door;
 			j++;
@@ -728,6 +651,9 @@ void	make_map(t_vars *vars, char **map_c)
 void	init_vars(t_vars *vars)
 {
 	vars->framerate = 0;
+	vars->sum_item = 0;
+	vars->now_sum_item = 0;
+	vars->steps = 0;
 }
 
 int main(int argc, char **argv)
@@ -747,9 +673,10 @@ int main(int argc, char **argv)
 	// // マップの縦横を測る
 	vars.row--;
 	// マップを二次元配列に突っ込む
+	init_vars(&vars);
 	make_map(&vars, map_c);
 	
-	init_vars(&vars);
+	
 	for (int i = 0; i < vars.col; i++)
 	{
 		for (int j = 0; j < vars.row; j++)
@@ -758,9 +685,12 @@ int main(int argc, char **argv)
 		}
 		printf("\n");
 	}
-	// windowを開始
 	init_window(&vars);
+	// windowを開始
 	// マップに合わせて表示
+	for (int i = 0; i < vars.col * 100; i++)
+		for (int j = 0; j < vars.row * 100; j++)
+			mlx_pixel_put(vars.mlx, vars.win, j, i, rgb_to_int(255, 255, 255));
 	display_map(&vars);
 
 	// handle_event(&vars);
