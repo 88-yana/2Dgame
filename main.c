@@ -225,9 +225,10 @@ int rgb_to_int(int r, int g, int b)
 // }
 
 #include "libft/libft.h"
+#include "gnl/get_next_line.h"
 #include <string.h> //strerror
 
-// #include "mlx.h"
+#include "mlx.h"
 
 #include <stdio.h>
 #define TYPE 6
@@ -243,9 +244,6 @@ int rgb_to_int(int r, int g, int b)
 // // 	int		player;
 // // 	int		door;
 // // }	t_map;
-
-
-
 
 typedef enum e_num {
 	road,
@@ -265,7 +263,6 @@ typedef struct s_vars {
 	int		player[2];
 	int		col;
 	int		row;
-	int		player[2];
 	int		door[2];
 	int		now_sum_item;
 	int		sum_item;
@@ -274,8 +271,19 @@ typedef struct s_vars {
 	char	*image_ptr[TYPE];
 }	t_vars;
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
 
-
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if ((unsigned char) s1[i] != (unsigned char) s2[i])
+			return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+		i++;
+	}
+	return (0);
+}
 
 void	check_arg(int argc, char **argv)
 {
@@ -287,7 +295,7 @@ void	check_arg(int argc, char **argv)
 		write(2, "Error\nneed file name\n", 22);
 		exit(1);
 	}
-	if (ft_strncmp(argv[1], ".bar", ft_strlen(".bar")) == 0)
+	if (ft_strcmp(argv[1], ".bar") == 0)
 	{
 		write(2, "Error\nFile name is invalid\n", 28);
 		exit(1);
@@ -299,7 +307,7 @@ void	check_arg(int argc, char **argv)
 	}
 	while(*(argv[1]) != '.')
 		argv[1]++;
-	if (ft_memcmp(argv[1], ".bar", ft_strlen(argv[1])) != 0)
+	if (ft_strcmp(argv[1], ".bar") != 0)
 	{
 		write(2, "Error\nEnd of file name needs to be '.bar'\n", 43);
 		exit(1);
@@ -319,30 +327,30 @@ void	check_arg(int argc, char **argv)
 // 	generate_map(mapline, vars);
 // }
 
-void	init_window(t_vars *vars)
-{
-	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, 100 * vars->row, 100 * vars->col, "so_long");
-}
+// void	init_window(t_vars *vars)
+// {
+// 	vars->mlx = mlx_init();
+// 	vars->win = mlx_new_window(vars->mlx, 100 * vars->row, 100 * vars->col, "so_long");
+// }
 
-void	draw_image(t_vars *vars, t_type type)
-{
-	int i;
-	int j;
-	i = 0;
-	j = 0;
-	while (i < vars->col)
-	{
-		while (j < vars->row)
-		{
-			if (type == back || vars->map[i][j] == type)
-				mlx_put_image_to_window(vars->mlx, vars->win,
-					vars->image_ptr[type], 100 * i, 100 * j);
-			j++;
-		}
-		i++;
-	}
-}
+// void	draw_image(t_vars *vars, t_type type)
+// {
+// 	int i;
+// 	int j;
+// 	i = 0;
+// 	j = 0;
+// 	while (i < vars->col)
+// 	{
+// 		while (j < vars->row)
+// 		{
+// 			if (type == back || vars->map[i][j] == type)
+// 				mlx_put_image_to_window(vars->mlx, vars->win,
+// 					vars->image_ptr[type], 100 * i, 100 * j);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }
 
 // void	init_window(t_vars *vars)
 // {
@@ -399,89 +407,66 @@ void	draw_image(t_vars *vars, t_type type)
 // 	return ;
 // }
 
-int	key_hook(int keycode, t_vars *vars)
-{
-	int x;
-	int y;
+// int	key_hook(int keycode, t_vars *vars)
+// {
+// 	int x;
+// 	int y;
 
-	x = vars->player[X];
-	y = vars->player[Y];
-	if (keycode == KEY_W)
-		move_player(vars, x, y - 1);
-	if (keycode == KEY_A)
-		move_player(vars, x - 1, y);
-	if (keycode == KEY_S)
-		move_player(vars, x, y + 1);
-	if (keycode == KEY_D)
-		move_player(vars, x + 1, y);
-	if (keycode == KEY_ESC)
-		mlx_destroy_window(vars->mlx, vars->win);
-	return (0);
-}
+// 	x = vars->player[X];
+// 	y = vars->player[Y];
+// 	if (keycode == KEY_W)
+// 		move_player(vars, x, y - 1);
+// 	if (keycode == KEY_A)
+// 		move_player(vars, x - 1, y);
+// 	if (keycode == KEY_S)
+// 		move_player(vars, x, y + 1);
+// 	if (keycode == KEY_D)
+// 		move_player(vars, x + 1, y);
+// 	if (keycode == KEY_ESC)
+// 		mlx_destroy_window(vars->mlx, vars->win);
+// 	return (0);
+// }
 
-int	loop_hook(t_vars *vars)
-{
+// int	loop_hook(t_vars *vars)
+// {
 
-	//map表示
-	draw_image(vars, item);
-	draw_image(vars, player);
-	draw_image(vars, closed_door);
-	draw_image(vars, open_door);
-	return (0);
-}
+// 	//map表示
+// 	draw_image(vars, item);
+// 	draw_image(vars, player);
+// 	draw_image(vars, closed_door);
+// 	draw_image(vars, open_door);
+// 	return (0);
+// }
 
-void	display_map(t_vars *vars)
-{
+// void	display_map(t_vars *vars)
+// {
 
-	//画像のポインタを作る
-	make_image(&vars);
-	//	背景を表示
-	draw_image(vars, back);
-	//	壁を表示
-	draw_image(vars, wall);
+// 	//画像のポインタを作る
+// 	make_image(&vars);
+// 	//	背景を表示
+// 	draw_image(vars, back);
+// 	//	壁を表示
+// 	draw_image(vars, wall);
 	
-	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
-		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
-		// 	キーボード入力を受け取る
-		// 	playerが進めるか（壁でないか）チェックして，進め，表示
-	mlx_key_hook(vars->win, key_hook, vars);
-	mlx_loop_hook (vars->mlx, loop_hook, vars);
-	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param);
-	mlx_loop(vars->mlx);
-}
+// 	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
+// 		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
+// 		// 	キーボード入力を受け取る
+// 		// 	playerが進めるか（壁でないか）チェックして，進め，表示
+// 	mlx_key_hook(vars->win, key_hook, vars);
+// 	mlx_loop_hook (vars->mlx, loop_hook, vars);
+// 	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param);
+// 	mlx_loop(vars->mlx);
+// }
 
 int main(int argc, char **argv)
 {
-	char	*mapline;
+	// char	*mapline;
 	t_vars	vars;
 
 	// 引数名のエラー処理
 	check_arg(argc, argv);
-	// マップ読み込み
-	mapline = read_file(argv[1]);
-	// マップエラー処理
-	check_map(mapline);
-	// マップの縦横を測る
-	// マップを二次元配列に突っ込む
-	make_map(mapline, &vars);
 
-	//windowを開始
-	init_window(&vars);
-	// マップに合わせて表示
-	display_map(&vars);
-
-	// handle_event(&vars);
-
-	return (0);
-}
-
-int main(int argc, char **argv)
-{
-	char	*mapline;
-	t_vars	vars;
-
-	// 引数名のエラー処理
-	check_arg(argc, argv);
+	
 	// マップ読み込み
 	// mapline = read_file(argv[1]);
 	// // マップエラー処理

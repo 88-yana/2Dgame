@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 20:36:44 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/03 23:48:18 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/08 09:01:39 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ static char	*gt_strclip(char **save, char **buf)
 char	*get_next_line(int fd)
 {
 	char		*buf;
-	static char	*save[OPEN_MAX];
+	static char	*save[FILE_OPEN_MAX];
 	int			bytes;
 
-	if (BUFFER_SIZE < 1 || fd < 0 || OPEN_MAX < fd)
+	if (BUFFER_SIZE < 1 || fd < 0 || FILE_OPEN_MAX < fd)
 		return (NULL);
 	buf = malloc((size_t)BUFFER_SIZE + 1);
 	if (buf == NULL)
