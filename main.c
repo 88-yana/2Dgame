@@ -242,6 +242,12 @@ void	draw_image(t_vars *vars, t_type type)
 		j = 0;
 		while (j < vars->row)
 		{
+			// if (type == back)
+			// {
+			// 	if (vars->map[i][j] == closed_door)
+			// 		mlx_put_image_to_window(vars->mlx, vars->win,
+			// 			vars->image_ptr[type], 100 * j, 100 * i);
+			// }
 			if (type == back || vars->map[i][j] == type)
 			{
 				mlx_put_image_to_window(vars->mlx, vars->win,
@@ -346,26 +352,31 @@ void make_image(t_vars *vars)
 	make_image_ptr(vars, hito3, "image_xpm/hito03.xpm");
 	make_image_ptr(vars, hito4, "image_xpm/hito04.xpm");
 	make_image_ptr(vars, hito5, "image_xpm/hito05.xpm");
-	make_image_ptr(vars, enemy, "image_xpm/cherry.xpm");
+	make_image_ptr(vars, enemy, "image_xpm/enemy.xpm");
+	make_image_ptr(vars, road, "image_xpm/lemon.xpm");
 }
 
 void	decide_enemy_move(t_vars *vars, int dr);
 
 void	move_enemy(t_vars *vars, int x, int y, int dr)
 {
-	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door && vars->map[y][x] != item)
+	printf("%d\n", vars->framerate);
+	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door && vars->map[y][x] != item && vars->map[y][x] != open_door)
 	{
 		vars->map[vars->enemy[Y]][vars->enemy[X]] = road;
 		vars->enemy[X] = x;
 		vars->enemy[Y] = y;
+		vars->map[y][x] = enemy;
 		if (vars->enemy[X] == vars->player[X] && vars->enemy[Y] == vars->player[Y])
 		{
 			free_map(vars);
+			ft_printf("failure, enemy catched you");
 			exit (0);
 		}
 		return ;
 	}
 	decide_enemy_move(vars, (dr + 1) % 4);
+	return ;
 }
 
 void	decide_enemy_move(t_vars *vars, int dr)
@@ -423,7 +434,8 @@ int	loop_hook(t_vars *vars)
 {
 
 	//map表示
-	draw_image(vars, back);
+	// draw_image(vars, back);
+	draw_image(vars, road);
 	draw_image(vars, wall);
 	draw_image(vars, item);
 	draw_image(vars, hito0);
@@ -432,26 +444,29 @@ int	loop_hook(t_vars *vars)
 	draw_image(vars, hito3);
 	draw_image(vars, hito4);
 	draw_image(vars, hito5);
-	draw_image(vars, open_door);
 	draw_image(vars, closed_door);
+	draw_image(vars, open_door);
 	draw_image(vars, enemy);
-	if (vars->framerate / 9 == 0)
+
+	if (vars->framerate / 10 == 0)
 		vars->map[vars->player[Y]][vars->player[X]] = hito0;
-	if (vars->framerate / 9 == 1)
+	if (vars->framerate / 10 == 1)
 		vars->map[vars->player[Y]][vars->player[X]] = hito1;
-	if (vars->framerate / 9 == 2)
+
+	if (vars->framerate / 10 == 2)
 		vars->map[vars->player[Y]][vars->player[X]] = hito2;
-	if (vars->framerate / 9 == 3)
+
+	if (vars->framerate / 10 == 3)
 		vars->map[vars->player[Y]][vars->player[X]] = hito3;
-	if (vars->framerate / 9 == 4)
+	
+	if (vars->framerate / 10 == 4)
 		vars->map[vars->player[Y]][vars->player[X]] = hito4;
-	if (vars->framerate / 9 == 5)
+	
+	if (vars->framerate / 10 == 5)
 		vars->map[vars->player[Y]][vars->player[X]] = hito5;
-	if (vars->framerate ==  54)
+	if (vars->framerate ==  60)
 		vars->framerate = 0;
 	vars->framerate++;
-	// printf("%d\n", vars->framerate);
-	draw_image(vars, open_door);
 	return (0);
 }
 
@@ -474,10 +489,6 @@ void	display_map(t_vars *vars)
 	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param);
 	mlx_loop(vars->mlx);
 }
-
-
-
-
 
 char	**read_file(t_vars *vars, char* file_name)
 {
@@ -526,8 +537,6 @@ void free_map_c(t_vars *vars, char **map_c)
 	}
 	free(map_c);
 }
-
-
 
 void is_rectangle(t_vars *vars, char **map_c)
 {
@@ -673,6 +682,8 @@ void	make_map(t_vars *vars, char **map_c)
 				vars->map[i][j] = road;
 				if (vars->enemy_existing == 0)
 				{
+					vars->enemy[X] = j;
+					vars->enemy[Y] = i;
 					vars->map[i][j] = enemy;
 					vars->enemy_existing = 1;
 				}
@@ -740,78 +751,9 @@ int main(int argc, char **argv)
 	init_window(&vars);
 	// windowを開始
 	// マップに合わせて表示
-	// for (int i = 0; i < vars.col * 100; i++)
-	// 	for (int j = 0; j < vars.row * 100; j++)
-	// 		mlx_pixel_put(vars.mlx, vars.win, i, j, rgb_to_int(255, 255, 255));
+	for (int i = 0; i < vars.col * 100; i++)
+		for (int j = 0; j < vars.row * 100; j++)
+			mlx_pixel_put(vars.mlx, vars.win, j, i, rgb_to_int(255, 255, 255));
 	display_map(&vars);
-
-	// handle_event(&vars);
-
 	return (0);
 }
-
-// int kari (t_vars *vars)
-// {
-// 	printf("%d\n", vars->kari);
-// 	mlx_key_hook(vars->win, key_hook, vars);
-// 	mlx_loop_hook(vars->mlx, loop_hook, vars);
-// 	mlx_loop(vars->mlx);
-// 	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param );
-// 	return (0);
-// }
-
-// int	main(void)
-// {
-// 	t_vars	vars;
-// 	vars.col = 3;
-// 	vars.row = 3;
-// 	vars.kari = 200;
-// 	init_window(&vars);
-// 	for (int i = 0; i < vars.col * 100; i++)
-// 	{
-// 		for (int j = 0; j < vars.row * 100; j++)
-// 		{
-// 			mlx_pixel_put(vars.mlx, vars.win, i, j, rgb_to_int(vars.kari, vars.kari, vars.kari));
-// 		}
-		
-// 	}
-// 	printf("LINE == %d, FILE == %s :", __LINE__, __FILE__);
-// 	printf("%d\n", vars.kari);
-// 	kari(&vars);
-// 	return (0);
-// }
-
-
-// #include <mlx.h>
-// #include <stdio.h>
-
-// typedef struct	s_vars {
-// 	void	*mlx;
-// 	void	*win;
-// }				t_vars;
-
-// int	key_hook(int keycode, t_vars *vars, int *a)
-// {
-// 	if (keycode == 2)
-// 		printf("yeah\n");
-// 	else
-// 		printf("Hello from key_hook!\n");
-// 	printf("both\n");
-// 	return (0);
-// }
-
-// int	main(void)
-// {
-// 	t_vars	vars;
-// 	int a = 0;
-// 	int keycode;
-
-// 	vars.mlx = mlx_init();
-// 	vars.win = mlx_new_window(vars.mlx, 640, 480, "Hello world!");
-// 	printf("a = %d\n", a);
-// 	int (*hook)(int, t_vars *, int);
-// 	hook = key_hook(0, &vars, &a);
-// 	a = mlx_key_hook(vars.win, hook, &vars);
-// 	printf("a = %d\n", a);
-// 	mlx_loop(vars.mlx);
-// }

@@ -3,3 +3,4 @@ a.out
 *.3
 *.a
 so_long
+.DS_Store
