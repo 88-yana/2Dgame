@@ -10,9 +10,9 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "libft/ft_printf/ft_printf.h"
-#include "gnl/get_next_line.h"
+#include "../libft/libft.h"
+#include "../libft/ft_printf/ft_printf.h"
+#include "../gnl/get_next_line.h"
 #include "mlx.h"
 #include <fcntl.h> //O_RDONLY
 
