@@ -1,0 +1,541 @@
+�{���K�̌���ɂ��v���O������
+input.txt�ɃR�s�[���y�[�X�g���Ďg�p���Ă݂�
+
+-------------------------------------------------
+�L���闆���i�v�����gp.2�̐}�`�j
+{ 400
+	walk 0.5 3.6
+	go_up 0.5
+	move 0.5 3.6
+}
+
+�v�����g�}6�̐}�`
+{ 10
+	move 10 36
+	{ 60
+		walk 0 12
+		go_up 10
+	}
+	{ 60
+		walk 0 -12
+		go_up -10
+	}
+	move_up 5
+}
+
+
+
+{ 400
+	walk 0.5 3.6
+	go_up 0.5
+	move 0.5 3.6
+}
+
+	{ 6
+		walk 2.5 0
+		walk 0 0.5
+		walk -2.5 0
+	}
+
+	{5
+		go_up 1.0
+		walk 0.5 0
+		go_up -1.0
+		walk 0.5 0
+	}
+	walk -2.5 0
+
+{ 15
+	{ 12
+			walk 5.0 0
+			walk 0 2.0
+			walk -5.0 0
+	}
+	{ 5
+			go_up 5.0
+			walk 1.0 0
+			go_up -5.0
+	}
+		walk -5 0
+		go_up 5.0
+}
+
+
+
+//螺旋
+{ 15
+	{ 12
+			walk 5 0
+			walk 0 2
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+		walk -5 0
+		go_up 5
+}
+
+move_up -75
+
+{ 14
+			move 5.0 0
+	{ 12
+			walk 0 2.0
+	}
+		go_up 5.0
+		move -5 0
+}
+		move 5.0 0
+	{ 12
+			walk 0 2.0
+	}
+
+move_up -75
+
+{ 15
+	{ 12
+			walk 5 0
+			walk 0 -2
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+		walk -5 0
+		go_up 5
+}
+//螺旋終わり
+
+
+//螺旋ver2
+{ 15
+	{ 12
+			walk 5 0
+			walk 0 2
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+	
+		walk -5 0
+		go_up 5
+}
+
+move_up -75
+
+{ 14
+			move 5.0 0
+	{ 12
+			walk 0 2.0
+	}
+		go_up 5.0
+		move -5 0
+}
+		move 5.0 0
+	{ 12
+			walk 0 2.0
+	}
+
+move_up -75
+
+{ 15
+	{ 12
+			walk 5 0
+			walk 0 -2
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+		walk -5 0
+		go_up 5
+}
+//  終わり
+
+
+
+{ 30
+	{ 12
+			move 5 0
+			walk 0 1
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+	
+		walk -5 0
+		go_up 5
+}
+{ 30
+	{ 12
+			move 5 0
+			walk 0 -1
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+	
+		walk -5 0
+		go_up 5
+}
+
+move_up -75
+
+{ 14
+			move 5.0 0
+	{ 12
+			walk 0 2.0
+	}
+		go_up 5.0
+		move -4 0
+}
+		move 5.0 0
+	{ 12
+			walk 0 2.0
+	}
+
+move_up -75
+
+{ 15
+	{ 12
+			walk 5 0
+			walk 0 -2
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+		walk -5 0
+		go_up 5
+}
+
+
+//よくわからないもの
+{ 30
+	{ 12
+			move 5 0
+			walk 0 1
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+	
+		walk -5 0
+		go_up 5
+}
+{ 30
+	{ 12
+			move 5 0
+			walk 0 -1
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+	
+		walk -5 0
+		go_up 5
+}
+
+move_up -75
+
+{ 14
+			move 5.0 0
+	{ 12
+			walk 0 2.0
+	}
+		go_up 5.0
+		move -4 0
+}
+		move 5.0 0
+	{ 12
+			walk 0 2.0
+	}
+
+move_up -75
+
+{ 15
+	{ 12
+			walk 5 0
+			walk 0 -2
+			walk -5 0
+	}
+	{ 5
+			go_up 5
+			walk 1 0
+			go_up -5
+	}
+		walk -5 0
+		go_up 5
+}
+
+//よくわからないもの終了
+
+// 二重螺旋構造
+{ 20
+	{ 20
+		move 10 0
+		go_up 0.1
+		move -20 0
+		go_up -0.1
+		move 10 0
+		move_up 0.1
+		move 0 2
+	}
+
+	move 10 0
+	go_up 0.1
+	walk -20 0
+	go_up -0.1
+	move 10 0
+	move_up 0.1
+	move 0 2
+}
+//二重螺旋構造終わり
+
+
+//二重らせんver2
+{ 20
+	{ 20
+		move 10 0
+		go_up 0.2
+		move -20 0
+		go_up -0.2
+		move 10 0
+		move_up 0.2
+		move 0 2
+	}
+
+	move 10 0
+	go_up 0.2
+	walk -20 0
+	go_up -0.2
+	walk 20 0
+	move -10 0
+	move_up 0.2
+	move 0 2
+}
+// 二重らせんver2終わり
+
+
+
+// 複雑
+
+{ 4
+	{ 15
+		{ 12
+				walk 5 0
+				walk 0 2
+				walk -5 0
+		}
+		{ 5
+				go_up 5
+				walk 1 0
+				go_up -5
+		}
+
+			walk -5 0
+			go_up 5
+	}
+
+	move_up -75
+
+	{ 14
+				move 5.0 0
+		{ 12
+				walk 0 2.0
+		}
+			go_up 5.0
+			move -5 0
+	}
+			move 5.0 0
+		{ 12
+				walk 0 2.0
+		}
+
+	move_up -75
+
+	{ 15
+		{ 12
+				walk 5 0
+				walk 0 -2
+				walk -5 0
+		}
+		{ 5
+				go_up 5
+				walk 1 0
+				go_up -5
+		}
+			walk -5 0
+			go_up 5
+	}
+}
+
+// 複雑終わり
+
+
+
+//組み合わせ
+
+{ 20
+	{ 20
+		move 5 0
+		go_up 1.2
+		move -10 0
+		go_up -1.2
+		move 5 0
+		move_up 1.2
+		move 0 2
+	}
+
+	move 5 0
+	go_up 1.2
+	walk -10 0
+	go_up -1.2
+	walk 10 0
+	move -5 0
+	move_up 1.2
+	move 0 2
+}
+
+{ 4
+	{ 15
+		{ 12
+				walk 5 0
+				walk 0 2
+				walk -5 0
+		}
+		{ 5
+				go_up 5
+				walk 1 0
+				go_up -5
+		}
+
+			walk -5 0
+			go_up 5
+	}
+
+	move_up -75
+
+	{ 14
+				move 5.0 0
+		{ 12
+				walk 0 2.0
+		}
+			go_up 5.0
+			move -5 0
+	}
+			move 5.0 0
+		{ 12
+				walk 0 2.0
+		}
+
+	move_up -75
+
+	{ 15
+		{ 12
+				walk 5 0
+				walk 0 -2
+				walk -5 0
+		}
+		{ 5
+				go_up 5
+				walk 1 0
+				go_up -5
+		}
+			walk -5 0
+			go_up 5
+	}
+
+	move 0 90
+}
+
+// 組み合わせ終わり
+
+
+//かつて花
+{ 3
+	{ 3
+		{ 2	
+			{ 10
+				walk 1 0
+				go_up 1
+			}
+			{ 10
+				walk 1 0
+				go_up 2
+			}
+			{ 10
+				walk 1 0
+				go_up 3
+			}
+			move -30 0
+			move_up -60
+			move 0 4
+		}
+	}
+
+	{ 3
+		{ 2
+			{ 10
+				walk 0.8 0
+				go_up 0.8
+			}
+			{ 10
+				walk 0.8 0
+				go_up 1.6
+			}
+			{ 10
+				walk 0.8 0
+				go_up 2.4
+			}
+			move -24 0
+			move_up -48
+			move 0 4
+		}
+	}	
+
+	{ 3
+		{ 2
+			{ 10
+				walk 0.7 0
+				go_up 0.7
+			}
+			{ 10
+				walk 0.7 0
+				go_up 1.4
+			}
+			{ 10
+				walk 0.7 0
+				go_up 2.1
+			}
+			move -21 0
+			move_up -42
+			move 0 2
+		}
+	}
+	move 0 60
+}
