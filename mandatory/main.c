@@ -174,6 +174,7 @@ void make_image(t_vars *vars)
 {
 	make_image_ptr(vars, back, "image_xpm/lemon.xpm");
 	make_image_ptr(vars, wall, "image_xpm/tree.xpm");
+	make_image_ptr(vars, road, "image_xpm/lemon.xpm");
 	make_image_ptr(vars, item, "image_xpm/cherry.xpm");
 	make_image_ptr(vars, closed_door, "image_xpm/closed_door.xpm");
 	make_image_ptr(vars, open_door, "image_xpm/door.xpm");
@@ -184,7 +185,6 @@ void make_image(t_vars *vars)
 	make_image_ptr(vars, hito4, "image_xpm/hito04.xpm");
 	make_image_ptr(vars, hito5, "image_xpm/hito05.xpm");
 	make_image_ptr(vars, enemy, "image_xpm/enemy.xpm");
-	make_image_ptr(vars, road, "image_xpm/lemon.xpm");
 }
 
 void	decide_enemy_move(t_vars *vars, int dr);
@@ -267,36 +267,21 @@ int	key_hook(int keycode, t_vars *vars)
 
 int	loop_hook(t_vars *vars)
 {
+	t_type	type;
 
-	//map表示
-	draw_image(vars, road);
-	draw_image(vars, item);
-	draw_image(vars, closed_door);
-	draw_image(vars, open_door);
-	draw_image(vars, hito0);
-	draw_image(vars, hito1);
-	draw_image(vars, hito2);
-	draw_image(vars, hito3);
-	draw_image(vars, hito4);
-	draw_image(vars, hito5);
-	draw_image(vars, enemy);
-
-	if (vars->framerate / 9 == 0)
-		vars->map[vars->player[Y]][vars->player[X]] = hito0;
-	if (vars->framerate / 9 == 1)
-		vars->map[vars->player[Y]][vars->player[X]] = hito1;
-
-	if (vars->framerate / 9 == 2)
-		vars->map[vars->player[Y]][vars->player[X]] = hito2;
-
-	if (vars->framerate / 9 == 3)
-		vars->map[vars->player[Y]][vars->player[X]] = hito3;
-	
-	if (vars->framerate / 9 == 4)
-		vars->map[vars->player[Y]][vars->player[X]] = hito4;
-	
-	if (vars->framerate / 9 == 5)
-		vars->map[vars->player[Y]][vars->player[X]] = hito5;
+	type = road;
+	while (type <= enemy)
+	{
+		draw_image(vars, type);
+		type++;
+	}
+	type = hito0;
+	while (type <= hito5)
+	{
+		if ((t_type) vars->framerate / 9 + hito0 == type)
+			vars->map[vars->player[Y]][vars->player[X]] = type;
+		type++;
+	}
 	if (vars->framerate ==  54)
 		vars->framerate = 0;
 	vars->framerate++;
@@ -312,14 +297,8 @@ void	display_map(t_vars *vars)
 	draw_image(vars, back);
 	//	壁を表示
 	draw_image(vars, wall);
-	
-	// while (扉が開いた状態（アイテムを全部とった状態）かつ　扉に行った場合　に終了)
-		// 	アイテムと扉とプレーヤーは毎ターン表示してもいいかもしれない
-		// 	キーボード入力を受け取る
-		// 	playerが進めるか（壁でないか）チェックして，進め，表示
 	mlx_key_hook(vars->win, key_hook, vars);
 	mlx_loop_hook (vars->mlx, loop_hook, vars);
-	// mlx_loop_hook ( void *mlx_ptr, int (*funct_ptr)(), void *param);
 	mlx_loop(vars->mlx);
 }
 
@@ -371,131 +350,11 @@ void free_map_c(t_vars *vars, char **map_c)
 	free(map_c);
 }
 
-void is_rectangle(t_vars *vars, char **map_c)
-{
-	size_t i;
 
-	i = 0;
-	vars->row = ft_strlen(map_c[0]);
-	while (i < vars->col)
-	{
-		if (ft_strlen(map_c[i]) != vars->row)
-		{
-			if (i == vars->col - 1 && ft_strlen(map_c[i]) + 1 == vars->row)
-			{
-				if (map_c[i][vars->row - 2] == '1')
-				{
-					i++;
-					continue ;
-				}
-			}
-			write(2, "Error\nMap is not a rectangle", 29);
-			free_map_c(vars, map_c);
-			exit(1);
-		}
-		i++;
-	}
-	if (map_c[vars->col - 1][vars->row - 1] == '1')
-	{
-		write(2, "Error\nMap is not a rectangle", 29);
-		free_map_c(vars, map_c);
-		exit(1);
-	}
-}
 
-void is_surrounded(t_vars *vars, char **map_c)
-{
-	size_t i;
 
-	i = 0;
-	while (i < vars->row - 1)
-	{
-		if (map_c[0][i] == map_c[vars->col - 1][i] && map_c[0][i] == '1')
-		{
-			i++;
-			continue ;
-		}
-		write(2, "Error\nMap is not surrounded", 28);
-		exit(1);
-	}
-	i = 0;
-	while (i < vars->col)
-	{
-		if (map_c[i][0] == map_c[i][vars->row - 2] && map_c[i][0] == '1')
-		{
-			i++;
-			continue ;
-		}
-		write(2, "Error\nMap is not surrounded", 28);
-		exit(1);
-	}
-}
 
-void	match_condition(int cnt_p, int cnt_c, int cnt_e)
-{
-	if (cnt_p != 1)
-	{
-		write(2, "Error\nPlayer's start is not one", 32);
-		exit(1);
-	}
-	if (cnt_c == 0)
-	{
-		write(2, "Error\nCollectible is zero", 26);
-		exit(1);
-	}
-	if (cnt_e == 0)
-	{
-		write(2, "Error\nExit is zero", 19);
-		exit(1);
-	}
-}
 
-void	check_components(t_vars *vars, char **map_c)
-{
-	size_t i;
-	size_t j;
-	int cnt[3];
-
-	i = 0;
-	cnt[0] = 0;
-	cnt[1] = 0;
-	cnt[2] = 0;
-	while (i < vars->col)
-	{
-		j = 0;
-		while (j < vars->row - 1)
-		{
-			if (map_c[i][j] == 'P')
-				cnt[0]++;
-			if (map_c[i][j] == 'C')
-				cnt[1]++;
-			if (map_c[i][j] == 'E')
-				cnt[2]++;
-			
-			j++;
-		}
-		i++;
-	}
-	match_condition(cnt[0], cnt[1], cnt[2]);
-}
-
-void	check_map(t_vars *vars, char **map_c)
-{
-
-	if (vars->col == 0)
-	{
-		write(2, "Error\nfirst line in file is empty", 34);
-		exit(1);
-	}
-	if (map_c[0][0] != '1')
-	{
-		write(2, "Error\nFirst line is invalid", 28);
-		exit(1);
-	}
-	is_rectangle(vars, map_c);
-	is_surrounded(vars, map_c);
-	check_components(vars, map_c);
-}
 
 void	make_map(t_vars *vars, char **map_c)
 {

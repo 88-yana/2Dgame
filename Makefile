@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 SRCS = mandatory/main.c \
-
+	mandatory/check_map.c
 SRCS_BONUS = bonus/main.c \
 
 OBJS = $(SRCS:%.c=%.o)
