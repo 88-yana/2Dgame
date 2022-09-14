@@ -6,13 +6,19 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:50:25 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 16:58:35 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:34:27 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 void	move_player(t_vars *vars, int x, int y);
 void	decide_enemy_move(t_vars *vars, int dr);
+
+static void	move_chracter(t_vars *vars, int x, int y)
+{
+	move_player(vars, x, y);
+	decide_enemy_move(vars, vars->framerate % 4);
+}
 
 int	key_hook(int keycode, t_vars *vars)
 {
@@ -22,25 +28,13 @@ int	key_hook(int keycode, t_vars *vars)
 	x = vars->player[X];
 	y = vars->player[Y];
 	if (keycode == KEY_W)
-	{
-		move_player(vars, x, y - 1);
-		decide_enemy_move(vars, vars->framerate % 4);
-	}
+		move_chracter(vars, x, y - 1);
 	if (keycode == KEY_A)
-	{
-		move_player(vars, x - 1, y);
-		decide_enemy_move(vars, vars->framerate % 4);
-	}
+		move_chracter(vars, x - 1, y);
 	if (keycode == KEY_S)
-	{
-		move_player(vars, x, y + 1);
-		decide_enemy_move(vars, vars->framerate % 4);
-	}
+		move_chracter(vars, x, y + 1);
 	if (keycode == KEY_D)
-	{
-		move_player(vars, x + 1, y);
-		decide_enemy_move(vars, vars->framerate % 4);
-	}
+		move_chracter(vars, x + 1, y);
 	if (keycode == KEY_ESC)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);

@@ -6,11 +6,13 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:20:16 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 15:53:54 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:33:11 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+void	check_last_line(t_vars *vars, char **map_c);
+void	match_condition(int cnt_p, int cnt_c, int cnt_e);
 
 static void	is_rectangle(t_vars *vars, char **map_c)
 {
@@ -18,30 +20,17 @@ static void	is_rectangle(t_vars *vars, char **map_c)
 
 	i = 0;
 	vars->row = ft_strlen(map_c[0]);
-	while (i < vars->col)
+	while (i < vars->col - 1)
 	{
 		if (ft_strlen(map_c[i]) != vars->row)
 		{
-			if (i == vars->col - 1 && ft_strlen(map_c[i]) + 1 == vars->row)
-			{
-				if (map_c[i][vars->row - 2] == '1')
-				{
-					i++;
-					continue ;
-				}
-			}
 			free_map_c(vars, map_c);
 			write(2, "Error\nMap is not a rectangle", 29);
 			exit(1);
 		}
 		i++;
 	}
-	if (map_c[vars->col - 1][vars->row - 1] == '1')
-	{
-		free_map_c(vars, map_c);
-		write(2, "Error\nMap is not a rectangle", 29);
-		exit(1);
-	}
+	check_last_line(vars, map_c);
 }
 
 static void	is_surrounded(t_vars *vars, char **map_c)
@@ -68,25 +57,6 @@ static void	is_surrounded(t_vars *vars, char **map_c)
 			continue ;
 		}
 		write(2, "Error\nMap is not surrounded", 28);
-		exit(1);
-	}
-}
-
-static void	match_condition(int cnt_p, int cnt_c, int cnt_e)
-{
-	if (cnt_p != 1)
-	{
-		write(2, "Error\nPlayer's start is not one", 32);
-		exit(1);
-	}
-	if (cnt_c == 0)
-	{
-		write(2, "Error\nCollectible is zero", 26);
-		exit(1);
-	}
-	if (cnt_e == 0)
-	{
-		write(2, "Error\nExit is zero", 19);
 		exit(1);
 	}
 }

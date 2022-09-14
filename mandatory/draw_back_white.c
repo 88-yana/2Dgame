@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:08:48 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 17:12:23 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:20:12 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	draw_back_white(t_vars *vars)
 	size_t	j;
 
 	i = 0;
-	j = 0;
 	while (i < vars->col * 100)
 	{
+		j = 0;
 		while (j < vars->row * 100)
 		{
 			mlx_pixel_put(vars->mlx, vars->win, j, i,

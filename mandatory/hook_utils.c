@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_map_utils.c                                :+:      :+:    :+:   */
+/*   hook_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 16:51:17 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:23:47 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@ void	decide_enemy_move(t_vars *vars, int dr);
 
 static void	move_enemy(t_vars *vars, int x, int y, int dr)
 {
-	printf("%d\n", vars->framerate);
 	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door
 	&& vars->map[y][x] != item && vars->map[y][x] != open_door)
 	{
@@ -78,7 +77,6 @@ static void	chage_map(t_vars *vars, int x, int y)
 	if (vars->map[y][x] == item)
 	{
 		vars->now_sum_item++;
-		ft_printf("%d, %d", vars->now_sum_item, vars->sum_item);
 		if (vars->now_sum_item == vars->sum_item)
 			chage_closed_to_open(vars);
 	}

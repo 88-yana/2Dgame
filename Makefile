@@ -10,6 +10,7 @@ SRCS = mandatory/main.c \
 	mandatory/init.c \
 	mandatory/read_file.c \
 	mandatory/make_map.c \
+	mandatory/check_map_utils.c \
 	mandatory/check_map.c
 SRCS_BONUS = bonus/main.c \
 
