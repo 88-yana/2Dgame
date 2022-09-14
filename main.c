@@ -184,7 +184,6 @@ void	chage_map(t_vars *vars, int x, int y)
 	{
 		free_map(vars);
 		ft_printf("success, steps : %d\n", vars->steps);
-		mlx_destroy_window(vars->mlx, vars->win);
 		exit (0) ;
 	}
 	vars->map[y][x] = player;
@@ -307,7 +306,6 @@ int	key_hook(int keycode, t_vars *vars)
 	}
 	if (keycode == KEY_ESC)
 	{
-		mlx_destroy_window(vars->mlx, vars->win);
 		free_map(vars);
 		exit(0);
 	}
