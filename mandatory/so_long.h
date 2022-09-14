@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:15:28 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/13 15:17:47 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/14 15:39:11 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@
 
 typedef enum e_num {
 	back,
-	road,
 	wall,
+	road,
 	item,
 	closed_door,
 	open_door,
-	player,
 	hito0,
 	hito1,
 	hito2,
@@ -52,8 +51,8 @@ typedef struct s_vars {
 	int		player[2];
 	int		enemy[2];
 	int		is_enemy_existing;
-	int		col;
-	int		row;
+	size_t	col;
+	size_t	row;
 	int		now_sum_item;
 	int		sum_item;
 	int		steps;

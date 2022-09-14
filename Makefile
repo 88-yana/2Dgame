@@ -1,5 +1,5 @@
 CC = cc
-# CFLAGS = -Wall -Wextra -Werror -I ./include
+CFLAGS = -Wall -Wextra -Werror -g
 SRCS = mandatory/main.c \
 
 SRCS_BONUS = bonus/main.c \

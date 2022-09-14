@@ -49,8 +49,8 @@ typedef struct s_vars {
 	int		player[2];
 	int		enemy[2];
 	int		is_enemy_existing;
-	int		col;
-	int		row;
+	size_t	col;
+	size_t	row;
 	int		now_sum_item;
 	int		sum_item;
 	int		steps;

@@ -72,8 +72,8 @@ void	init_window(t_vars *vars)
 
 void	draw_image(t_vars *vars, t_type type)
 {
-	int i;
-	int j;
+	size_t i;
+	size_t j;
 
 	i = 0;
 	while (i < vars->col)
@@ -94,7 +94,7 @@ void	draw_image(t_vars *vars, t_type type)
 
 void	free_map(t_vars *vars)
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	while (i < vars->col)
@@ -107,8 +107,8 @@ void	free_map(t_vars *vars)
 
 void	chage_closed_to_open(t_vars *vars)
 {
-	int i;
-	int j;
+	size_t i;
+	size_t j;
 
 	i = 0;
 	while (i < vars->col)
@@ -140,7 +140,6 @@ void	chage_map(t_vars *vars, int x, int y)
 		mlx_destroy_window(vars->mlx, vars->win);
 		exit (0) ;
 	}
-	vars->map[y][x] = player;
 	return ;
 }
 
@@ -176,7 +175,6 @@ void make_image(t_vars *vars)
 	make_image_ptr(vars, back, "image_xpm/lemon.xpm");
 	make_image_ptr(vars, wall, "image_xpm/tree.xpm");
 	make_image_ptr(vars, item, "image_xpm/cherry.xpm");
-	// make_image_ptr(vars, player, "image_xpm/door.xpm");
 	make_image_ptr(vars, closed_door, "image_xpm/closed_door.xpm");
 	make_image_ptr(vars, open_door, "image_xpm/door.xpm");
 	make_image_ptr(vars, hito0, "image_xpm/hito00.xpm");
@@ -271,18 +269,16 @@ int	loop_hook(t_vars *vars)
 {
 
 	//map表示
-	// draw_image(vars, back);
 	draw_image(vars, road);
-	draw_image(vars, wall);
 	draw_image(vars, item);
+	draw_image(vars, closed_door);
+	draw_image(vars, open_door);
 	draw_image(vars, hito0);
 	draw_image(vars, hito1);
 	draw_image(vars, hito2);
 	draw_image(vars, hito3);
 	draw_image(vars, hito4);
 	draw_image(vars, hito5);
-	draw_image(vars, closed_door);
-	draw_image(vars, open_door);
 	draw_image(vars, enemy);
 
 	if (vars->framerate / 9 == 0)
@@ -330,8 +326,8 @@ void	display_map(t_vars *vars)
 char	**read_file(t_vars *vars, char* file_name)
 {
 	int fd;
-	int i;
-	int sum_nl;
+	size_t i;
+	size_t sum_nl;
 	char **map_c;
 
 	sum_nl = 0;
@@ -364,7 +360,7 @@ char	**read_file(t_vars *vars, char* file_name)
 
 void free_map_c(t_vars *vars, char **map_c)
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	while (i < vars->col)
@@ -377,7 +373,7 @@ void free_map_c(t_vars *vars, char **map_c)
 
 void is_rectangle(t_vars *vars, char **map_c)
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	vars->row = ft_strlen(map_c[0]);
@@ -409,7 +405,7 @@ void is_rectangle(t_vars *vars, char **map_c)
 
 void is_surrounded(t_vars *vars, char **map_c)
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	while (i < vars->row - 1)
@@ -456,8 +452,8 @@ void	match_condition(int cnt_p, int cnt_c, int cnt_e)
 
 void	check_components(t_vars *vars, char **map_c)
 {
-	int i;
-	int j;
+	size_t i;
+	size_t j;
 	int cnt[3];
 
 	i = 0;
@@ -503,8 +499,8 @@ void	check_map(t_vars *vars, char **map_c)
 
 void	make_map(t_vars *vars, char **map_c)
 {
-	int	i;
-	int j;
+	size_t	i;
+	size_t j;
 
 	vars->map = malloc(sizeof(t_type *) * vars->col);
 	i = 0;
@@ -559,8 +555,8 @@ void	init_vars(t_vars *vars)
 
 void	draw_back_white(t_vars *vars)
 {
-	for (int i = 0; i < vars->col * 100; i++)
-		for (int j = 0; j < vars->row * 100; j++)
+	for (size_t i = 0; i < vars->col * 100; i++)
+		for (size_t j = 0; j < vars->row * 100; j++)
 			mlx_pixel_put(vars->mlx, vars->win, j, i, rgb_to_int(255, 255, 255));
 }
 
@@ -573,7 +569,7 @@ int main(int argc, char **argv)
 	check_arg(argc, argv);
 	// マップ読み込み
 	map_c = read_file(&vars, argv[1]);
-	for (int i = 0; i < vars.col; i++)
+	for (size_t i = 0; i < vars.col; i++)
 		printf("%s", map_c[i]);
 	printf("\n");
 	// マップエラー処理,マップの縦横を測る
@@ -584,9 +580,9 @@ int main(int argc, char **argv)
 	make_map(&vars, map_c);
 	
 	
-	for (int i = 0; i < vars.col; i++)
+	for (size_t i = 0; i < vars.col; i++)
 	{
-		for (int j = 0; j < vars.row; j++)
+		for (size_t j = 0; j < vars.row; j++)
 		{
 			printf("%d'", vars.map[i][j]);
 		}
