@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:15:28 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 16:03:49 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/14 16:17:31 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_vars {
 	int		framerate;
 }	t_vars;
 
+void	check_arg(int argc, char **argv);
 void	check_map(t_vars *vars, char **map_c);
 void	free_map_c(t_vars *vars, char **map_c);
 

@@ -1,6 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 SRCS = mandatory/main.c \
+	mandatory/check_arg.c \
 	mandatory/check_map.c
 SRCS_BONUS = bonus/main.c \
 
