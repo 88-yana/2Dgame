@@ -1,20 +1,29 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-SRCS = mandatory/main.c \
-	mandatory/check_arg.c \
-	mandatory/display_map.c \
-	mandatory/draw_back_white.c \
-	mandatory/free.c \
-	mandatory/hook_utils.c \
-	mandatory/hook.c \
-	mandatory/init.c \
-	mandatory/read_file.c \
-	mandatory/make_map.c \
-	mandatory/check_map_utils.c \
-	mandatory/check_map.c
+CFLAGS = -Wall -Wextra -Werror
+
+OBJS_DIR = ./mandatory/objs
+
+OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
+
+SRCS_DIR = ./mandatory/src
+
+SRCS_NAME = main.c \
+	check_arg.c \
+	display_map.c \
+	draw_back_white.c \
+	free.c \
+	hook_utils.c \
+	hook.c \
+	init.c \
+	read_file.c \
+	make_map.c \
+	check_map_utils.c \
+	check_map.c
+
+SRCS = $(addprefix src/, ${SRCS_NAME})
+
 SRCS_BONUS = bonus/main.c \
 
-OBJS = $(SRCS:%.c=%.o)
 OBJS_BONUS = $(SRCS_BONUS:%.c=%.o)
 NAME = so_long
 NAME_BONUS = so_long_bonus
@@ -30,9 +39,12 @@ MINILIBX = libmlx.dylib
 
 all: $(NAME)
 
+${OBJS_DIR}/%.o: ${SRCS_DIR}/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
 bonus: $(NAME_BONUS)
 
-$(NAME): $(OBJS) $(LIBFT_A) $(GNL_A) $(MINILIBX)
+$(NAME): mkd $(OBJS) $(LIBFT_A) $(GNL_A) $(MINILIBX)
 	cc $(OBJS) $(LIBFT_A) $(GNL_A) $(MINILIBX) -o $(NAME)
 $(NAME_BONUS): $(OBJS_BONUS) $(LIBFT_A) $(GNL_A) $(MINILIBX)
 	cc $(OBJS_BONUS) $(LIBFT_A) $(GNL_A) $(MINILIBX) -o $(NAME)
@@ -43,6 +55,7 @@ $(GNL_A):
 $(MINILIBX):
 	$(MAKE) -C $(MINILIBXDIR)
 clean:
+	$(RM) -rf ${OBJS_DIR}
 	$(RM) $(OBJS)
 	$(RM) $(OBJS_BONUS)
 	$(MAKE) clean -C $(LIBFTDIR)
@@ -55,6 +68,9 @@ fclean: clean
 	$(RM) $(NAME) $(NAME_BONUS) $(MINILIBX) ../$(MINILIBX)
 
 re: fclean all
+
+mkd:
+	@mkdir -p ${OBJS_DIR}
 
 .PHONY : all clean fclean re
 

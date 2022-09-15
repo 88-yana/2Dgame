@@ -6,16 +6,16 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:15:28 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 17:53:51 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:42:47 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "../libft/libft.h"
-# include "../libft/ft_printf/ft_printf.h"
-# include "../gnl/get_next_line.h"
+# include "../../libft/libft.h"
+# include "../../libft/ft_printf/ft_printf.h"
+# include "../../gnl/get_next_line.h"
 # include "mlx.h"
 # include <fcntl.h> //O_RDONLY
 

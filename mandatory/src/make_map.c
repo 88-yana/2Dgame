@@ -6,11 +6,11 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:52:38 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 18:31:08 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:44:03 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 static void	put_enemy(t_vars *vars, size_t i, size_t j)
 {

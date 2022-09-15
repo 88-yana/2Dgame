@@ -6,11 +6,11 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:15:29 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 16:16:25 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:43:20 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	check_arg(int argc, char **argv)
 {

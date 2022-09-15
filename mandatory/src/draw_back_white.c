@@ -1,30 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   draw_back_white.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/14 17:05:36 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 17:07:31 by hyanagim         ###   ########.fr       */
+/*   Created: 2022/09/14 17:08:48 by hyanagim          #+#    #+#             */
+/*   Updated: 2022/09/15 15:43:38 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
-void	init_vars(t_vars *vars)
+int	rgb_to_int(int r, int g, int b)
 {
-	vars->row--;
-	vars->framerate = 0;
-	vars->sum_item = 0;
-	vars->now_sum_item = 0;
-	vars->steps = 0;
-	vars->is_enemy_existing = 0;
+	int	color;
+
+	color = 0;
+	color |= b;
+	color |= g << 8;
+	color |= r << 16;
+	return (color);
 }
 
-void	init_window(t_vars *vars)
+void	draw_back_white(t_vars *vars)
 {
-	vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx,
-			100 * vars->row, 100 * vars->col, "so_long");
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (i < vars->col * 100)
+	{
+		j = 0;
+		while (j < vars->row * 100)
+		{
+			mlx_pixel_put(vars->mlx, vars->win, j, i,
+				rgb_to_int(255, 255, 255));
+			j++;
+		}
+		i++;
+	}
 }

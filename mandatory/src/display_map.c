@@ -6,11 +6,11 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:19:01 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 16:59:39 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:43:34 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	draw_image(t_vars *vars, t_type type)
 {

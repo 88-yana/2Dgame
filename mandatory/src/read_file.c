@@ -6,11 +6,11 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:46:39 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/14 17:51:28 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:44:22 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 static size_t	cnt_sum_nl(t_vars *vars, char *file_name)
 {
