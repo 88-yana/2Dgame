@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:15:28 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 15:42:47 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 16:18:36 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define KEY_S 1
 # define KEY_D 2
 # define KEY_ESC 53
+# define ON_DESTROY 17
 
 typedef enum e_num {
 	back,
@@ -73,5 +74,6 @@ void	free_map(t_vars *vars);
 void	free_map_c(t_vars *vars, char **map_c);
 char	**read_file(t_vars *vars, char *file_name);
 void	make_map(t_vars *vars, char **map_c);
+int		click_x_hook(int keycode, t_vars *vars);
 
 #endif

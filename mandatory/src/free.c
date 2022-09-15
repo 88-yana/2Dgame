@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:03:14 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 15:43:43 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 23:50:14 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ void	free_map(t_vars *vars)
 	while (i < vars->col)
 	{
 		free(vars->map[i]);
+		vars->map[i] = NULL;
 		i++;
 	}
 	free(vars->map);
+	vars->map = NULL;
 	type = back;
 	while (type <= enemy)
 	{

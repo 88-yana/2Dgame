@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:50:25 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 15:43:53 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 23:53:19 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,16 @@ int	key_hook(int keycode, t_vars *vars)
 		move_chracter(vars, x + 1, y);
 	if (keycode == KEY_ESC)
 	{
-		mlx_destroy_window(vars->mlx, vars->win);
 		free_map(vars);
 		exit(0);
 	}
+	return (0);
+}
+
+int	click_x_hook(int keycode, t_vars *vars)
+{
+	(void) keycode;
+	free_map(vars);
 	return (0);
 }
 

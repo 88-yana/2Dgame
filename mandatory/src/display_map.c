@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:19:01 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 15:43:34 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 23:54:07 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ void	display_map(t_vars *vars)
 	draw_image(vars, wall);
 	mlx_key_hook(vars->win, key_hook, vars);
 	mlx_loop_hook (vars->mlx, loop_hook, vars);
+	mlx_hook(vars->win, ON_DESTROY, 1L << 0, click_x_hook, vars);
 	mlx_loop(vars->mlx);
 }

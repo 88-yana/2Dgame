@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 15:43:48 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/15 23:52:54 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static void	chage_map(t_vars *vars, int x, int y)
 	{
 		free_map(vars);
 		ft_printf("success, steps : %d\n", vars->steps);
-		mlx_destroy_window(vars->mlx, vars->win);
 		exit(0);
 	}
 	return ;
