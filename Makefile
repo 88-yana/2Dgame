@@ -40,11 +40,12 @@ MINILIBX = libmlx.dylib
 all: $(NAME)
 
 ${OBJS_DIR}/%.o: ${SRCS_DIR}/%.c
+	mkdir -p ${OBJS_DIR}
 	$(CC) $(CFLAGS) -c $< -o $@
 
 bonus: $(NAME_BONUS)
 
-$(NAME): mkd $(OBJS) $(LIBFT_A) $(GNL_A) $(MINILIBX)
+$(NAME): $(OBJS) $(LIBFT_A) $(GNL_A) $(MINILIBX)
 	cc $(OBJS) $(LIBFT_A) $(GNL_A) $(MINILIBX) -o $(NAME)
 $(NAME_BONUS): $(OBJS_BONUS) $(LIBFT_A) $(GNL_A) $(MINILIBX)
 	cc $(OBJS_BONUS) $(LIBFT_A) $(GNL_A) $(MINILIBX) -o $(NAME)
@@ -69,8 +70,4 @@ fclean: clean
 
 re: fclean all
 
-mkd:
-	@mkdir -p ${OBJS_DIR}
-
 .PHONY : all clean fclean re
-
