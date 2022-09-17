@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:46:39 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 15:44:22 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/18 05:34:35 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static size_t	cnt_sum_nl(t_vars *vars, char *file_name)
 {
 	int		fd;
 	size_t	sum_nl;
+	char	*temp;
 
 	sum_nl = 0;
 	fd = open(file_name, O_RDONLY);
@@ -24,8 +25,14 @@ static size_t	cnt_sum_nl(t_vars *vars, char *file_name)
 		perror(file_name);
 		exit(1);
 	}
-	while (get_next_line(fd))
+	while (1)
+	{
+		temp = get_next_line(fd);
+		if (temp == NULL)
+			break ;
+		free(temp);
 		sum_nl++;
+	}
 	vars->col = sum_nl;
 	close(fd);
 	return (sum_nl);

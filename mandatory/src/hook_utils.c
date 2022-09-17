@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 23:52:54 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/18 05:37:10 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static void	chage_map(t_vars *vars, int x, int y)
 	{
 		free_map(vars);
 		ft_printf("success, steps : %d\n", vars->steps);
+		system("leaks -q so_long");
 		exit(0);
 	}
 	return ;
