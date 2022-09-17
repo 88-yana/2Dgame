@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:50:25 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 23:53:19 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/18 02:40:48 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ int	key_hook(int keycode, t_vars *vars)
 int	click_x_hook(int keycode, t_vars *vars)
 {
 	(void) keycode;
-	free_map(vars);
-	return (0);
+	(void) vars;
+	system("leaks so_long");
+	exit (0);
 }
 
 int	loop_hook(t_vars *vars)
