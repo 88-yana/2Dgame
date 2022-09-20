@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_back_white.c                                  :+:      :+:    :+:   */
+/*   draw_back_white_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:08:48 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 15:43:38 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 07:50:11 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/so_long.h"
+#include "../include/so_long_bonus.h"
 
 int	rgb_to_int(int r, int g, int b)
 {

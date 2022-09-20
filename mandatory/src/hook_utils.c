@@ -6,53 +6,11 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:31:14 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 07:39:03 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
-
-void	decide_enemy_move(t_vars *vars, int dr);
-
-static void	move_enemy(t_vars *vars, int x, int y, int dr)
-{
-	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door
-	&& vars->map[y][x] != item && vars->map[y][x] != open_door)
-	{
-		vars->map[vars->enemy[Y]][vars->enemy[X]] = road;
-		vars->enemy[X] = x;
-		vars->enemy[Y] = y;
-		vars->map[y][x] = enemy;
-		if (vars->enemy[X] == vars->player[X]
-			&& vars->enemy[Y] == vars->player[Y])
-		{
-			free_map(vars);
-			ft_printf("failure, enemy catched you");
-			exit (0);
-		}
-		return ;
-	}
-	decide_enemy_move(vars, (dr + 1) % 4);
-	return ;
-}
-
-void	decide_enemy_move(t_vars *vars, int dr)
-{
-	int	x;
-	int	y;
-
-	x = vars->enemy[X];
-	y = vars->enemy[Y];
-	if (dr == 0)
-		move_enemy(vars, x, y - 1, dr);
-	if (dr == 1)
-		move_enemy(vars, x - 1, y, dr);
-	if (dr == 2)
-		move_enemy(vars, x, y + 1, dr);
-	if (dr == 3)
-		move_enemy(vars, x + 1, y, dr);
-	return ;
-}
 
 void	chage_closed_to_open(t_vars *vars)
 {

@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:15:28 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 16:18:36 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 07:36:28 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef enum e_num {
 	hito3,
 	hito4,
 	hito5,
-	enemy,
 }	t_type;
 
 typedef struct s_vars {
@@ -50,7 +49,6 @@ typedef struct s_vars {
 	void	*win;
 	t_type	**map;
 	int		player[2];
-	int		enemy[2];
 	int		is_enemy_existing;
 	size_t	col;
 	size_t	row;

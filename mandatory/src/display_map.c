@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:19:01 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 23:54:07 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 07:38:08 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static void	make_image(t_vars *vars)
 	make_image_ptr(vars, hito3, "image_xpm/hito03.xpm");
 	make_image_ptr(vars, hito4, "image_xpm/hito04.xpm");
 	make_image_ptr(vars, hito5, "image_xpm/hito05.xpm");
-	make_image_ptr(vars, enemy, "image_xpm/enemy.xpm");
 }
 
 void	display_map(t_vars *vars)

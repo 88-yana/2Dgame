@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:03:14 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 23:50:14 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 07:38:39 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_map(t_vars *vars)
 	free(vars->map);
 	vars->map = NULL;
 	type = back;
-	while (type <= enemy)
+	while (type <= hito5)
 	{
 		mlx_destroy_image(vars->mlx, vars->image_ptr[type]);
 		type++;
