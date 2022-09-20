@@ -74,7 +74,8 @@ ${OBJS_DIR_BONUS}/%.o: ${SRCS_DIR_BONUS}/%.c
 	mkdir -p ${OBJS_DIR_BONUS}
 	$(CC) $(CFLAGS) -c $< -o $@
 clean:
-	$(RM) -rf ${OBJS_DIR}
+	$(RM) -rf $(OBJS_DIR)
+	$(RM) -rf $(OBJS_DIR_BONUS)
 	$(RM) $(OBJS)
 	$(RM) $(OBJS_BONUS)
 	$(MAKE) clean -C $(LIBFTDIR)
