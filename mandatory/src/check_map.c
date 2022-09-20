@@ -6,11 +6,12 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:20:16 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 15:43:29 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 07:31:00 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
 void	check_last_line(t_vars *vars, char **map_c);
 void	match_condition(int cnt_p, int cnt_c, int cnt_e);
 

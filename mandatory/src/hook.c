@@ -6,11 +6,12 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:50:25 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/18 05:37:19 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 07:31:18 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
+
 void	move_player(t_vars *vars, int x, int y);
 void	decide_enemy_move(t_vars *vars, int dr);
 
