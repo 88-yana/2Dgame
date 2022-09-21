@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:08:48 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:50:11 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:45:12 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,20 @@ void	draw_back_white(t_vars *vars)
 		}
 		i++;
 	}
+}
+
+void	draw_steps(t_vars *vars)
+{
+	free(vars->str);
+	vars->str = ft_itoa(vars->steps);
+	if (vars->str == NULL)
+		return ;
+	mlx_put_image_to_window(vars->mlx, vars->win,
+		vars->image_ptr[road], 0, vars->col * 100 - 80);
+	mlx_put_image_to_window(vars->mlx, vars->win,
+		vars->image_ptr[wall], 0, (vars->col - 1) * 100);
+	mlx_string_put(vars->mlx, vars->win,
+		0, vars->col * 100 + 15, 0, "steps");
+	mlx_string_put(vars->mlx, vars->win,
+		70, vars->col * 100 + 15, 0, vars->str);
 }

@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:50:27 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:49:41 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void	move_player(t_vars *vars, int x, int y)
 		vars->player[X] = x;
 		vars->player[Y] = y;
 		vars->steps++;
-		ft_printf("steps : %d\n", vars->steps);
 		chage_map(vars, x, y);
 	}
 	return ;

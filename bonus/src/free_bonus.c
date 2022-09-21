@@ -6,17 +6,11 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:03:14 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 10:31:05 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:35:50 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long_bonus.h"
-
-char	*ft_free(char *str)
-{
-	free(str);
-	return (NULL);
-}
 
 void	free_map(t_vars *vars)
 {

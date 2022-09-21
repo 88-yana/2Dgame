@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:50:25 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 10:27:25 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:49:41 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,7 @@ int	key_hook(int keycode, t_vars *vars)
 		system("leaks so_long");
 		exit(0);
 	}
-	free(vars->str);
-	vars->str = ft_strjoin("steps", ft_itoa(vars->steps));
-	mlx_put_image_to_window(vars->mlx, vars->win,
-		vars->image_ptr[road], 0, vars->col * 100 - 80);
-	mlx_put_image_to_window(vars->mlx, vars->win,
-		vars->image_ptr[wall], 0, (vars->col - 1) * 100);
-	mlx_string_put(vars->mlx, vars->win, 10, vars->col * 100 + 15, 255 * 255, vars->str);
+	draw_steps(vars);
 	return (0);
 }
 
