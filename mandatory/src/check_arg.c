@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:15:29 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/15 15:43:20 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:33:51 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	check_arg(int argc, char **argv)
 {
-	int	i;
+	char	*ptr;
 
 	if (argc != 2)
 	{
@@ -26,15 +26,8 @@ void	check_arg(int argc, char **argv)
 		write(2, "Error\nFile name is invalid\n", 28);
 		exit(1);
 	}
-	if (ft_strchr(argv[1], '.') != ft_strrchr(argv[1], '.'))
-	{
-		write(2, "Error\nFile name is invalid\n", 28);
-		exit(1);
-	}
-	i = 0;
-	while (*(argv[1] + i) != '.')
-		i++;
-	if (ft_strcmp(argv[1] + i, ".ber") != 0)
+	ptr = ft_strrchr(argv[1], '.');
+	if (ft_strcmp(ptr, ".ber") != 0)
 	{
 		write(2, "Error\nEnd of file name needs to be '.bar'\n", 43);
 		exit(1);
