@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:50:25 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:50:22 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:15:57 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ int	loop_hook(t_vars *vars)
 {
 	t_type	type;
 
+	mlx_put_image_to_window(vars->mlx, vars->win,
+		vars->image_ptr[road], 0, vars->col * 100 - 80);
+	mlx_put_image_to_window(vars->mlx, vars->win,
+		vars->image_ptr[wall], 0, (vars->col - 1) * 100);
 	type = road;
 	while (type <= enemy)
 	{
