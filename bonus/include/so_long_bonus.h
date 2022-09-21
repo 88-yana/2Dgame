@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:15:28 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:41:02 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:23:38 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_vars {
 	int		steps;
 	char	*image_ptr[TYPE];
 	int		framerate;
+	char	*str;
 }	t_vars;
 
 void	check_arg(int argc, char **argv);

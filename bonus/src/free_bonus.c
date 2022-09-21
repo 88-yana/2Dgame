@@ -6,11 +6,17 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:03:14 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:50:17 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:31:05 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long_bonus.h"
+
+char	*ft_free(char *str)
+{
+	free(str);
+	return (NULL);
+}
 
 void	free_map(t_vars *vars)
 {
@@ -33,6 +39,7 @@ void	free_map(t_vars *vars)
 		type++;
 	}
 	mlx_destroy_window(vars->mlx, vars->win);
+	free(vars->str);
 }
 
 void	free_map_c(t_vars *vars, char **map_c)
