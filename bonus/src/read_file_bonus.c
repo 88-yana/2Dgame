@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:46:39 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/10/08 12:33:05 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 13:46:24 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,24 @@ static size_t	cnt_sum_nl(t_vars *vars, char *file_name)
 	return (sum_nl);
 }
 
-static char	**print_error(void)
+static void	print_error(void)
 {
 	perror(NULL);
-	return (NULL);
+	exit(1);
+}
+
+static void	free_gnl(char **map_c)
+{
+	size_t	i;
+
+	i = 0;
+	while (map_c[i] != NULL)
+	{
+		free(map_c[i]);
+		i++;
+	}
+	free(map_c);
+	exit (1);
 }
 
 char	**read_file(t_vars *vars, char *file_name)
@@ -54,7 +68,7 @@ char	**read_file(t_vars *vars, char *file_name)
 	sum_nl = cnt_sum_nl(vars, file_name);
 	map_c = malloc(sizeof(char *) * (sum_nl + 1));
 	if (map_c == NULL)
-		return (print_error());
+		print_error();
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
@@ -65,6 +79,8 @@ char	**read_file(t_vars *vars, char *file_name)
 	while (i < sum_nl)
 	{
 		map_c[i] = get_next_line(fd);
+		if (map_c[i] == NULL)
+			free_gnl(map_c);
 		i++;
 	}
 	close(fd);

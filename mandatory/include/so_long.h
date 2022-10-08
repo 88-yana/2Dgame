@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:15:28 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:36:28 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 15:12:36 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_vars {
 
 void	check_arg(int argc, char **argv);
 void	check_map(t_vars *vars, char **map_c);
+void	check_path(t_vars *vars, char **map_c);
 void	draw_image(t_vars *vars, t_type type);
 void	display_map(t_vars *vars);
 void	draw_back_white(t_vars *vars);
@@ -73,5 +74,5 @@ void	free_map_c(t_vars *vars, char **map_c);
 char	**read_file(t_vars *vars, char *file_name);
 void	make_map(t_vars *vars, char **map_c);
 int		click_x_hook(int keycode, t_vars *vars);
-
+void	free_gnl(char **map_c);
 #endif

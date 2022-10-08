@@ -18,7 +18,8 @@ SRCS_NAME = main.c \
 	read_file.c \
 	make_map.c \
 	check_map_utils.c \
-	check_map.c
+	check_map.c \
+	check_path.c
 
 
 OBJS_DIR_BONUS = ./bonus/objs
@@ -38,7 +39,8 @@ SRCS_NAME_BONUS = main_bonus.c \
 	read_file_bonus.c \
 	make_map_bonus.c \
 	check_map_utils_bonus.c \
-	check_map_bonus.c
+	check_map_bonus.c \
+	check_path_bonus.c
 
 
 NAME = so_long

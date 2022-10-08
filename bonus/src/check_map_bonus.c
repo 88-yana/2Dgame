@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:20:16 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/10/08 11:25:21 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 15:30:29 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,4 +120,5 @@ void	check_map(t_vars *vars, char **map_c)
 	is_rectangle(vars, map_c);
 	is_surrounded(vars, map_c);
 	check_components(vars, map_c);
+	check_path(vars, map_c);
 }
