@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/10/08 11:41:09 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 11:58:48 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	move_enemy(t_vars *vars, int x, int y, int dr)
 			&& vars->enemy[Y] == vars->player[Y])
 		{
 			free_map(vars);
-			ft_printf("failure, enemy catched you");
+			ft_printf("failure, enemy catched you\n");
 			system("leaks -q so_long");
 			exit (0);
 		}
