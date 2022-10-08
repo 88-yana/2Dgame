@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:19:01 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 10:43:12 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 12:24:24 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ void	draw_image(t_vars *vars, t_type type)
 		j = 0;
 		while (j < vars->row)
 		{
-			if (type == back || vars->map[i][j] == type)
+			if (type == enemy && vars->map[i][j] == type)
+			{
+				mlx_put_image_to_window(vars->mlx, vars->win,
+					vars->image_ptr[road], 100 * j, 100 * i);
+				mlx_put_image_to_window(vars->mlx, vars->win,
+					vars->image_ptr[type], 100 * j, 100 * i);
+			}
+			else if (type == back || vars->map[i][j] == type)
 			{
 				mlx_put_image_to_window(vars->mlx, vars->win,
 					vars->image_ptr[type], 100 * j, 100 * i);
