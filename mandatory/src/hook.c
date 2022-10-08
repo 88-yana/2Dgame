@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:50:25 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:45:10 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 11:18:48 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	key_hook(int keycode, t_vars *vars)
 	if (keycode == KEY_ESC)
 	{
 		free_map(vars);
-		system("leaks so_long");
+		system("leaks -q so_long");
 		exit(0);
 	}
 	return (0);

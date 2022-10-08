@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 10:49:41 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 11:41:09 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,38 @@ static void	move_enemy(t_vars *vars, int x, int y, int dr)
 
 void	decide_enemy_move(t_vars *vars, int dr)
 {
-	int	x;
-	int	y;
+	int				x;
+	int				y;
+	static size_t	surrounded = 1;
 
 	x = vars->enemy[X];
 	y = vars->enemy[Y];
+	printf("surrounded %zu\n", surrounded);
+	if (surrounded % 462 == 0)
+	{
+		surrounded = 1;
+		return ;
+	}
 	if (dr == 0)
+	{
 		move_enemy(vars, x, y - 1, dr);
+	}
+		surrounded *= 2;
 	if (dr == 1)
+	{
 		move_enemy(vars, x - 1, y, dr);
+	}
+		surrounded *= 3;
 	if (dr == 2)
+	{
 		move_enemy(vars, x, y + 1, dr);
+	}
+		surrounded *= 7;
 	if (dr == 3)
+	{
 		move_enemy(vars, x + 1, y, dr);
+	}
+		surrounded *= 11;
 	return ;
 }
 

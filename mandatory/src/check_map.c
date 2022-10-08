@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 15:20:16 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:31:00 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 11:22:19 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	is_rectangle(t_vars *vars, char **map_c)
 		if (ft_strlen(map_c[i]) != vars->row)
 		{
 			free_map_c(vars, map_c);
-			write(2, "Error\nMap is not a rectangle", 29);
+			ft_putendl_fd("Error\nMap is not a rectangle", 2);
 			exit(1);
 		}
 		i++;
@@ -46,7 +46,7 @@ static void	is_surrounded(t_vars *vars, char **map_c)
 			i++;
 			continue ;
 		}
-		write(2, "Error\nMap is not surrounded", 28);
+		ft_putendl_fd("Error\nMap is not surrounded", 2);
 		exit(1);
 	}
 	i = 0;
@@ -57,21 +57,34 @@ static void	is_surrounded(t_vars *vars, char **map_c)
 			i++;
 			continue ;
 		}
-		write(2, "Error\nMap is not surrounded", 28);
+		ft_putendl_fd("Error\nMap is not surrounded", 2);
 		exit(1);
 	}
 }
 
+static int	is_right_components(char c)
+{
+	if (c == '1')
+		return (1);
+	if (c == '0')
+		return (1);
+	if (c == 'P')
+		return (1);
+	if (c == 'C')
+		return (1);
+	if (c == 'E')
+		return (1);
+	ft_putendl_fd("Error\ncomponents are invalid", 2);
+	return (0);
+}
+
 static void	check_components(t_vars *vars, char **map_c)
 {
-	size_t	i;
-	size_t	j;
-	int		cnt[3];
+	size_t		i;
+	size_t		j;
+	static int	cnt[3];
 
 	i = 0;
-	cnt[0] = 0;
-	cnt[1] = 0;
-	cnt[2] = 0;
 	while (i < vars->col)
 	{
 		j = 0;
@@ -83,6 +96,8 @@ static void	check_components(t_vars *vars, char **map_c)
 				cnt[1]++;
 			if (map_c[i][j] == 'E')
 				cnt[2]++;
+			if (is_right_components(map_c[i][j]) == 0)
+				exit(1);
 			j++;
 		}
 		i++;
@@ -94,12 +109,12 @@ void	check_map(t_vars *vars, char **map_c)
 {
 	if (vars->col == 0)
 	{
-		write(2, "Error\nfirst line in file is empty", 34);
+		ft_putendl_fd("Error\nfirst line in file is empty", 2);
 		exit(1);
 	}
 	if (map_c[0][0] != '1')
 	{
-		write(2, "Error\nFirst line is invalid", 28);
+		ft_putendl_fd("Error\nFirst line is invalid", 2);
 		exit(1);
 	}
 	is_rectangle(vars, map_c);

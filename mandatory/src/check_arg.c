@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:15:29 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 11:33:51 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 11:21:32 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ void	check_arg(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		write(2, "Error\nneed file name\n", 22);
+		ft_putendl_fd("Error\nneed file name", 2);
 		exit(1);
 	}
 	if (ft_strcmp(argv[1], ".ber") == 0)
 	{
-		write(2, "Error\nFile name is invalid\n", 28);
+		ft_putendl_fd("Error\nFile name is invalid", 2);
 		exit(1);
 	}
 	ptr = ft_strrchr(argv[1], '.');
 	if (ft_strcmp(ptr, ".ber") != 0)
 	{
-		write(2, "Error\nEnd of file name needs to be '.bar'\n", 43);
+		ft_putendl_fd("Error\nEnd of file name needs to be '.bar'", 2);
 		exit(1);
 	}
 }
