@@ -6,15 +6,13 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 14:21:10 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/10/08 15:29:46 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 15:34:47 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long_bonus.h"
 #define WALL '1'
-#define ROAD '0'
 #define START 'P'
-#define ITEM 'C'
 #define GOAL 'E'
 #define MARK 'M'
 
