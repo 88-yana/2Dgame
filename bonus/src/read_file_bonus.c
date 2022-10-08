@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:46:39 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/10/08 13:46:24 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 15:36:22 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	print_error(void)
 	exit(1);
 }
 
-static void	free_gnl(char **map_c)
+void	free_gnl(char **map_c)
 {
 	size_t	i;
 

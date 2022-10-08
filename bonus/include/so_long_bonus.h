@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 15:15:28 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/10/08 12:20:27 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 15:37:18 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,6 @@ char	**read_file(t_vars *vars, char *file_name);
 void	make_map(t_vars *vars, char **map_c);
 int		click_x_hook(int keycode, t_vars *vars);
 void	draw_steps(t_vars *vars);
+void	check_path(t_vars *vars, char **map_c);
+void	free_gnl(char **map_c);
 #endif
