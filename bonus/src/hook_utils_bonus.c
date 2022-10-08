@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/10/08 13:52:15 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 15:55:19 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	move_enemy(t_vars *vars, int x, int y, int dr)
 		{
 			free_map(vars);
 			ft_printf("failure, enemy catched you\n");
-			system("leaks -q so_long");
 			exit (0);
 		}
 		return ;
@@ -96,7 +95,6 @@ static void	chage_map(t_vars *vars, int x, int y)
 	{
 		free_map(vars);
 		ft_printf("success, steps : %d\n", vars->steps);
-		system("leaks -q so_long");
 		exit(0);
 	}
 	return ;

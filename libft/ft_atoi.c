@@ -6,11 +6,12 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 00:30:22 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/05/15 17:55:35 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 16:01:11 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 static int	ft_isspace(char c)
 {
 	if (c == '\t' || c == '\n' || c == '\v'

@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 20:36:48 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/08 09:01:20 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 16:02:39 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdio.h>
 
 # define FILE_OPEN_MAX 255
+
 size_t	gt_strlen(const char *str);
 char	*gt_strlcpy(char **save, size_t start, size_t n);
 char	*gt_free(char **save, char **buf);
