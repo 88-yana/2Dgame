@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:52:38 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/21 07:40:05 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 13:35:33 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,39 @@ static void	handle_row(t_vars *vars, size_t i, char **map_c)
 	}
 }
 
+static void	free_array(t_vars *vars)
+{
+	size_t	i;
+
+	i = 0;
+	while (vars->map[i] != NULL)
+	{
+		free(vars->map[i]);
+		i++;
+	}
+	free(vars->map);
+}
+
 void	make_map(t_vars *vars, char **map_c)
 {
 	size_t	i;
 
 	vars->map = malloc(sizeof(t_type *) * vars->col);
+	if (vars->map == NULL)
+	{
+		perror(NULL);
+		exit(1);
+	}
 	i = 0;
 	while (i < vars->col)
 	{
 		vars->map[i] = malloc(sizeof(t_type) * vars->row);
+		if (vars->map[i] == NULL)
+		{
+			perror(NULL);
+			free_array(vars);
+			exit(1);
+		}
 		handle_row(vars, i, map_c);
 		i++;
 	}

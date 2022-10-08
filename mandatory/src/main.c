@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 19:13:02 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/18 05:40:36 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 13:30:21 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	main(int argc, char **argv)
 
 	check_arg(argc, argv);
 	map_c = read_file(&vars, argv[1]);
+	if (map_c == NULL)
+		return (1);
 	check_map(&vars, map_c);
 	init_vars(&vars);
 	make_map(&vars, map_c);

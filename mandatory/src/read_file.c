@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 17:46:39 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/09/18 05:34:35 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 13:22:42 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ static size_t	cnt_sum_nl(t_vars *vars, char *file_name)
 	return (sum_nl);
 }
 
+static char	**print_error(void)
+{
+	perror(NULL);
+	return (NULL);
+}
+
 char	**read_file(t_vars *vars, char *file_name)
 {
 	int		fd;
@@ -47,6 +53,8 @@ char	**read_file(t_vars *vars, char *file_name)
 
 	sum_nl = cnt_sum_nl(vars, file_name);
 	map_c = malloc(sizeof(char *) * (sum_nl + 1));
+	if (map_c == NULL)
+		return (print_error());
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
