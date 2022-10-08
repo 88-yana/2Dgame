@@ -6,13 +6,13 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/10/08 15:55:39 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 20:22:48 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	chage_closed_to_open(t_vars *vars)
+void	change_closed_to_open(t_vars *vars)
 {
 	size_t	i;
 	size_t	j;
@@ -31,13 +31,13 @@ void	chage_closed_to_open(t_vars *vars)
 	}
 }
 
-static void	chage_map(t_vars *vars, int x, int y)
+static void	change_map(t_vars *vars, int x, int y)
 {
 	if (vars->map[y][x] == item)
 	{
 		vars->now_sum_item++;
 		if (vars->now_sum_item == vars->sum_item)
-			chage_closed_to_open(vars);
+			change_closed_to_open(vars);
 	}
 	else if (vars->map[y][x] == open_door)
 	{
@@ -57,7 +57,7 @@ void	move_player(t_vars *vars, int x, int y)
 		vars->player[Y] = y;
 		vars->steps++;
 		ft_printf("steps : %d\n", vars->steps);
-		chage_map(vars, x, y);
+		change_map(vars, x, y);
 	}
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: hyanagim <hyanagim@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:36:59 by hyanagim          #+#    #+#             */
-/*   Updated: 2022/10/08 15:55:19 by hyanagim         ###   ########.fr       */
+/*   Updated: 2022/10/08 20:21:49 by hyanagim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	decide_enemy_move(t_vars *vars, int dr)
 	return ;
 }
 
-void	chage_closed_to_open(t_vars *vars)
+void	change_closed_to_open(t_vars *vars)
 {
 	size_t	i;
 	size_t	j;
@@ -83,13 +83,13 @@ void	chage_closed_to_open(t_vars *vars)
 	}
 }
 
-static void	chage_map(t_vars *vars, int x, int y)
+static void	change_map(t_vars *vars, int x, int y)
 {
 	if (vars->map[y][x] == item)
 	{
 		vars->now_sum_item++;
 		if (vars->now_sum_item == vars->sum_item)
-			chage_closed_to_open(vars);
+			change_closed_to_open(vars);
 	}
 	else if (vars->map[y][x] == open_door)
 	{
@@ -102,13 +102,14 @@ static void	chage_map(t_vars *vars, int x, int y)
 
 void	move_player(t_vars *vars, int x, int y)
 {
-	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door)
+	if (vars->map[y][x] != wall && vars->map[y][x] != closed_door
+	&& vars->map[y][x] != enemy)
 	{
 		vars->map[vars->player[Y]][vars->player[X]] = road;
 		vars->player[X] = x;
 		vars->player[Y] = y;
 		vars->steps++;
-		chage_map(vars, x, y);
+		change_map(vars, x, y);
 	}
 	return ;
 }
